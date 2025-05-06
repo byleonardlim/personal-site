@@ -24,7 +24,7 @@ export default async function Home() {
 
       {/* About Section */}
       <Section>
-        <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-100/50 backdrop-blur-sm py-2 px-4 text-gray-600 border border-gray-200/50">
+        <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
           About
         </h2>
         <p className="text-gray-800 dark:text-gray-200">
@@ -34,7 +34,7 @@ export default async function Home() {
 
       {/* Work Section */}
       <Section>
-        <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-100/50 backdrop-blur-sm py-2 px-4 text-gray-600 border border-gray-200/50">
+      <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
           Selected Work
         </h2>
         <div className="space-y-8">
@@ -49,7 +49,7 @@ export default async function Home() {
 
       {/* Experience Section */}
       <Section>
-        <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-100/50 backdrop-blur-sm py-2 px-4 text-gray-600 border border-gray-200/50">
+      <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
           Recent Experience
         </h2>
         <div className="space-y-8">
@@ -81,7 +81,7 @@ export default async function Home() {
 
       {/* Connect Section */}
       <Section>
-        <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-100/50 backdrop-blur-sm py-2 px-4 text-gray-600 border border-gray-200/50">
+        <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300"> 
           Connect
         </h2>
         <div className="space-y-2">

@@ -98,7 +98,7 @@ const MarkdownComponents: Components = {
     );
   },
   h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 {...props} className="text-md mb-3">{children}</h3>
+    <h3 {...props} className="text-sm mb-3 uppercase">{children}</h3>
   ),
   h4: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h4 {...props} className="text-lg font-bold mb-2">{children}</h4>
@@ -184,7 +184,7 @@ export function CaseStudyContent({ content, title, readingTime, tags }: CaseStud
       <SectionNav sections={sections} />
       <article className="p-2 lg:p-0 prose text-sm leading-tight">
         <section className="h-dvh pb-16 flex flex-col justify-center max-w-5xl md:max-w-3xl mx-auto">
-          <span className="block mb-4 text-xs text-gray-600 uppercase">{readingTime}</span>
+          <span className="block mb-4 text-xs text-neutral-600 dark:text-neutral-400 uppercase">{readingTime}</span>
           <h1 className="text-2xl lg:text-3xl mb-4">{title}</h1>
           <div className="space-y-2">
             {tags.length > 0 && (
@@ -194,7 +194,7 @@ export function CaseStudyContent({ content, title, readingTime, tags }: CaseStud
         </section>
         {sections.map((section) => (
           <section key={section.id} id={section.id} className="mb-16 max-w-5xl md:max-w-3xl mx-auto">
-            <h2 className="text-md font-medium mb-4 uppercase text-green-700">{section.title}</h2>
+            <h2 className="text-md font-medium mb-4 uppercase text-green-700 dark:text-green-300">{section.title}</h2>
             <div className="space-y-8">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
