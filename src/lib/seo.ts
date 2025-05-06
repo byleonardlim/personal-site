@@ -28,10 +28,7 @@ const seoConfig: DefaultSeoProps = {
       name: 'keywords',
       content: 'user experience, ux design, ux audit, app design, web-app design, low-code development, no-code development',
     },
-    {
-      name: 'google-site-verification',
-      content: 'YOUR_GOOGLE_ANALYTICS_ID',
-    },
+
   ],
 };
 

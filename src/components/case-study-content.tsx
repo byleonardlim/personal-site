@@ -25,14 +25,7 @@ interface Section {
   subSections?: Section[];
 }
 
-interface MarkdownComponentProps {
-  children?: React.ReactNode;
-  className?: string;
-  href?: string;
-  inline?: boolean;
-  node?: Record<string, unknown>;
-  [key: string]: unknown;
-}
+
 
 const generateSectionId = (title: string): string =>
   title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -83,13 +76,13 @@ const MarkdownComponents: Components = {
       {children}
     </div>
   ),
-  img: ({ ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+  img: ({ src, srcSet, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => {
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
     
     // Get the image source from props
-    const src = typeof props.src === 'string' ? props.src : props.srcSet;
-    const normalizedSrc = normalizeImagePath(src);
+    const imageSrc = typeof src === 'string' ? src : srcSet;
+    const normalizedSrc = normalizeImagePath(imageSrc);
 
     if (!normalizedSrc) {
       return null;
@@ -102,7 +95,7 @@ const MarkdownComponents: Components = {
         )}
         {hasError ? (
           <div className="w-full h-full rounded-xs flex items-center justify-center">
-            <p className="text-gray-500">Image failed to load: {src}</p>
+            <p className="text-gray-500">Image failed to load: {typeof src === 'string' ? src : 'Unknown source'}</p>
           </div>
         ) : (
           <Image
@@ -153,7 +146,7 @@ const MarkdownComponents: Components = {
       {children}
     </li>
   ),
-  a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  a: ({ href, children }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
       href={href}
       className="text-blue-600 hover:text-blue-800 underline"
@@ -173,12 +166,12 @@ const MarkdownComponents: Components = {
       {children}
     </em>
   ),
-  blockquote: ({ children, ...props }: React.BlockquoteHTMLAttributes<HTMLElement>) => (
+  blockquote: ({ children }) => (
     <blockquote className="p-4 font-medium text-gray-600 text-lg bg-gradient-to-t from-transparent to-gray-100">
       {children}
     </blockquote>
   ),
-  code: ({ inline, className, children, ...props }: React.HTMLAttributes<HTMLElement> & { inline?: boolean }) => {
+  code: ({ inline, children, ...props }: { inline?: boolean } & React.HTMLAttributes<HTMLElement>) => {
     if (inline) {
       return (
         <code className="bg-gray-100 px-2 py-1 rounded font-mono text-sm">
