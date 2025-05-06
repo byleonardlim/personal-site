@@ -76,11 +76,7 @@ const MarkdownComponents: Components = {
       {children}
     </div>
   ),
-  img: ({ src, srcSet, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [hasError, setHasError] = useState(false);
-    
-    // Get the image source from props
+  img: ({ src, srcSet }: React.ImgHTMLAttributes<HTMLImageElement>) => {
     const imageSrc = typeof src === 'string' ? src : srcSet;
     const normalizedSrc = normalizeImagePath(imageSrc);
 
@@ -90,28 +86,14 @@ const MarkdownComponents: Components = {
 
     return (
       <figure className="relative w-full h-full overflow-hidden mb-8 p-2 lg:p-4 bg-gradient-to-t from-transparent to-gray-100 pointer-events-none">
-        {isLoading && !hasError && (
-          <div className="w-full h-full rounded-xs shadow-md bg-gray-200 animate-pulse" />
-        )}
-        {hasError ? (
-          <div className="w-full h-full rounded-xs flex items-center justify-center">
-            <p className="text-gray-500">Image failed to load: {typeof src === 'string' ? src : 'Unknown source'}</p>
-          </div>
-        ) : (
-          <Image
-            src={normalizedSrc}
-            alt="Case study content"
-            className="w-full rounded-xs shadow-md"
-            onLoad={() => setIsLoading(false)}
-            onError={() => {
-              setIsLoading(false);
-              setHasError(true);
-            }}
-            width={1200}
-            height={630}
-            priority={true}
-          />
-        )}
+        <Image
+          src={normalizedSrc}
+          alt="Case study content"
+          className="w-full rounded-xs shadow-md"
+          width={1200}
+          height={630}
+          priority={true}
+        />
       </figure>
     );
   },
