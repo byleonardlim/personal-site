@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
 
@@ -68,6 +68,31 @@ export function SectionNav({ sections, className = '' }: SectionNavProps) {
     }
   }, []);
 
+  // Slide animation for active section
+  useEffect(() => {
+    const activeButton = document.querySelector('.active-section');
+    if (activeButton) {
+      const slideIn = () => {
+        gsap.from(activeButton, {
+          duration: 0.3,
+          opacity: 0,
+          x: -20,
+          ease: 'power2.out'
+        });
+      };
+
+      // Remove previous active class
+      const previousActive = document.querySelector('.active-section');
+      if (previousActive) {
+        previousActive.classList.remove('active-section');
+      }
+
+      // Add new active class and trigger animation
+      activeButton.classList.add('active-section');
+      slideIn();
+    }
+  }, [activeSection]);
+
   if (!sections || sections.length === 0) {
     return null;
   }
@@ -85,7 +110,7 @@ export function SectionNav({ sections, className = '' }: SectionNavProps) {
           <button
             key={section.id}
             onClick={() => handleSectionClick(section.id)}
-            className={`px-3 py-1 text-sm font-medium uppercase transition-colors duration-300 ${
+            className={`px-3 py-1 text-sm font-medium uppercase transition-colors duration-200 text-neutral-600 ${
               activeSection === section.id
                 ? 'bg-green-500 text-white'
                 : 'hover:text-green-600'

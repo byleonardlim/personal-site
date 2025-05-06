@@ -85,7 +85,7 @@ const MarkdownComponents: Components = {
     }
 
     return (
-      <figure className="relative w-full h-full overflow-hidden mb-8 p-2 lg:p-4 bg-gradient-to-t from-transparent to-gray-100 pointer-events-none">
+      <figure className="relative w-full h-full overflow-hidden mb-8 p-2 lg:p-4 bg-gradient-to-t from-transparent to-neutral-100 dark:to-neutral-800 pointer-events-none">
         <Image
           src={normalizedSrc}
           alt="Case study content"
@@ -149,7 +149,7 @@ const MarkdownComponents: Components = {
     </em>
   ),
   blockquote: ({ children }) => (
-    <blockquote className="p-4 font-medium text-gray-600 text-lg bg-gradient-to-t from-transparent to-gray-100">
+    <blockquote className="p-4 font-medium text-neutral-600 dark:text-neutral-400 text-lg bg-gradient-to-t from-transparent to-neutral-100 dark:to-neutral-800">
       {children}
     </blockquote>
   ),
