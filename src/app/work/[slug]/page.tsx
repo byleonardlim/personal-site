@@ -11,12 +11,12 @@ export async function generateStaticParams() {
 }
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export default async function CaseStudyPage({ params }: PageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const caseStudies = await getCaseStudyContent();
   const caseStudy = caseStudies.find(study => study.slug === slug);
 
