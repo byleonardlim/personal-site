@@ -19,10 +19,9 @@ const AnimatedHeadline = () => {
 
     const headlines = [
       'No fluff. Just realistic impact.',
-      'Crafting meaningful solutions.',
-      'Building with purpose.',
-      'Transforming ideas into reality.',
-      'Creating impactful experiences.'
+      'Partnering with you to create impactful experiences.',
+      'Zero-to-one product design.',
+      'Product experience transformation with AI.'
     ];
 
     let currentIndex = 0;

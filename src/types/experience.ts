@@ -4,6 +4,5 @@ export interface Experience {
   location: string;
   startDate: string; // Format: YYYY-MM
   endDate: string; // Format: YYYY-MM or 'Present'
-  description: string;
   tags: string[];
 }

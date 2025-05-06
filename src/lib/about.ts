@@ -1,5 +1,5 @@
 export const aboutContent = {
-  bio: `I'm a full-stack developer with a passion for building meaningful digital experiences. I specialize in TypeScript, React, and Node.js, and I'm always exploring new technologies to enhance my craft.`,
+  bio: `Independent UX Design Consultant based in Singapore with 10+ years of experience. I specialize in zero-to-one product design for early-stage startups and design consultancy for businesses. Currently, I help enterprises digitize processes with AI-powered solutions, transforming complex workflows into intuitive, user-friendly experiences.`,
   location: 'Singapore',
   email: 'me@byleonardlim.com',
   linkedin: 'https://www.linkedin.com/in/byleonardlim'

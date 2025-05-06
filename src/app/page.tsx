@@ -12,7 +12,7 @@ export async function generateMetadata() {
   return {
     title: defaultSEOConfig.defaultTitle,
     description: defaultSEOConfig.description,
-    keywords: defaultSEOConfig.additionalMetaTags?.[0]?.content || 'full stack developer, typescript, react, node.js, software development',
+    keywords: defaultSEOConfig.additionalMetaTags?.[0]?.content,
     openGraph: defaultSEOConfig.openGraph ? {
       title: defaultSEOConfig.defaultTitle,
       description: defaultSEOConfig.description,
@@ -34,14 +34,24 @@ export default async function Home() {
       {/* Hero Section */}
       <Section className="pb-16 h-dvh border-0 flex items-center overflow-hidden text-2xl lg:text-3xl font-medium">
         <h1 className="mb-4">
-          <span className="block">By, Leonard Lim.</span>
+          <span className="block text-green-600">By, Leonard Lim.</span>
           <AnimatedHeadline />
         </h1>
       </Section>
 
+      {/* About Section */}
+      <Section>
+        <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-100/50 backdrop-blur-sm py-2 px-4 text-gray-600 border border-gray-200/50">
+          About
+        </h2>
+        <p className="text-gray-800 dark:text-gray-200">
+          {aboutContent.bio}
+        </p>
+      </Section>
+
       {/* Work Section */}
       <Section>
-        <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-900 py-2 px-4 text-gray-100">
+        <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-100/50 backdrop-blur-sm py-2 px-4 text-gray-600 border border-gray-200/50">
           Selected Work
         </h2>
         <div className="space-y-8">
@@ -54,54 +64,62 @@ export default async function Home() {
         </div>
       </Section>
 
-{/* About & Contact Section */}
-      <Section>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="space-y-4">
-            <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-900 py-2 px-4 text-gray-100">
-              About
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              {aboutContent.bio}
-            </p>
-          </div>
-          <div className="space-y-4">
-            <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-900 py-2 px-4 text-gray-100">
-              Contact
-            </h2>
-            <div className="space-y-2">
-              <div className="flex items-center">
-                <MapPin className="w-4 h-4 mr-2" />
-                <span className="text-gray-600 dark:text-gray-400">
-                  Singapore
-                </span>
-              </div>
-              <div className="flex items-center">
-                <Mail className="w-4 h-4 mr-2" />
-                <a href={`mailto:${aboutContent.email}`} className="underline text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">
-                  Email
-                </a>
-              </div>
-              <div className="flex items-center">
-                <ExternalLink className="w-4 h-4 mr-2" />
-                <a href={aboutContent.linkedin} className="underline text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">
-                  LinkedIn
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
-
       {/* Experience Section */}
       <Section>
-        <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-900 py-2 px-4 text-gray-100">
+        <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-100/50 backdrop-blur-sm py-2 px-4 text-gray-600 border border-gray-200/50">
           Recent Experience
         </h2>
         <div className="space-y-8">
-          {experienceData.map((experience, index) => (
-            <ExperienceCard key={index} experience={experience} />
-          ))}
+          {experienceData
+            .sort((a, b) => {
+              // Place 'Present' at the top
+              if (a.endDate === 'Present') return -1;
+              if (b.endDate === 'Present') return 1;
+              
+              // Convert dates to YYYY-MM format for comparison
+              const dateA = new Date(a.endDate);
+              const dateB = new Date(b.endDate);
+              return dateB.getTime() - dateA.getTime();
+            })
+            .map((experience, index, array) => {
+              // Calculate opacity based on position in array
+              // First item (Present) is 100%, last item is 50%
+              const totalItems = array.length;
+              const opacity = 1 - (index / (totalItems - 1)) * 0.5;
+              
+              return (
+                <div key={index} style={{ opacity }} className="transition-opacity duration-300">
+                  <ExperienceCard experience={experience} />
+                </div>
+              );
+            })}
+        </div>
+      </Section>
+
+      {/* Connect Section */}
+      <Section>
+        <h2 className="w-fit text-md font-medium mb-4 uppercase bg-gray-100/50 backdrop-blur-sm py-2 px-4 text-gray-600 border border-gray-200/50">
+          Connect
+        </h2>
+        <div className="space-y-2">
+          <div className="flex items-center">
+            <Mail className="w-4 h-4 mr-2" />
+            <a href={`mailto:${aboutContent.email}`} className="underline text-gray-800 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">
+              { aboutContent.email }
+            </a>
+          </div>
+          <div className="flex items-center">
+            <ExternalLink className="w-4 h-4 mr-2" />
+            <a href={aboutContent.linkedin} className="underline text-gray-800 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">
+              LinkedIn
+            </a>
+          </div>
+          <div className="flex items-center">
+            <MapPin className="w-4 h-4 mr-2" />
+            <span className="text-gray-800 dark:text-gray-200">
+              { aboutContent.location }
+            </span>
+          </div>
         </div>
       </Section>
     </div>

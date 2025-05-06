@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   if (!caseStudy) {
     return {
-      title: 'Case Study Not Found | Leonard Lim',
+      title: 'Case Study Not Found | Leonard Lim - Independent UX Design Consultant',
       description: 'The requested case study could not be found',
     };
   }

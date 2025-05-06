@@ -8,11 +8,11 @@ const seoConfig: DefaultSeoProps = {
     type: 'website',
     locale: 'en_US',
     url: 'https://byleonardlim.com',
-    site_name: 'Leonard Lim - Full Stack Developer',
+    site_name: 'Leonard Lim - Independent UX Design Consultant',
     images: [
       {
         url: 'https://byleonardlim.com/og-image.png',
-        alt: 'Leonard Lim - Full Stack Developer',
+        alt: 'Leonard Lim - Independent UX Design Consultant',
         width: 1200,
         height: 630,
       },
@@ -26,7 +26,11 @@ const seoConfig: DefaultSeoProps = {
   additionalMetaTags: [
     {
       name: 'keywords',
-      content: 'ux design, ux audit, low-code development, no-code development',
+      content: 'user experience, ux design, ux audit, app design, web-app design, low-code development, no-code development',
+    },
+    {
+      name: 'google-site-verification',
+      content: 'YOUR_GOOGLE_ANALYTICS_ID',
     },
   ],
 };

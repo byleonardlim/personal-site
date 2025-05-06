@@ -33,7 +33,6 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
       </div>
 
       <p className="text-gray-600 dark:text-gray-400 mb-4">
-        {experience.description}
       </p>
 
       {experience.tags.length > 0 && (

@@ -8,11 +8,11 @@ featured: true
 ---
 
 ## Overview
-This case study shows how an AI-powered Management Letter tool turned a frustrating, time-consuming task into a fast, reliable, and hassle-free process.
+This case study showcases how an AI-powered Management Letter tool transformed a frustrating, time-consuming task into a fast, reliable, and hassle-free process. The product is part of a larger ecosystem aimed at reshaping how auditors conduct audits and communicate with clients efficiently.
 
-Allison — a fictional but very relatable auditor — used to juggle scattered audit notes, tedious evidence checks, and manual source tracing. Now, a custom-built AI tool reads through thousands of pages, pulls out key issues, and creates draft Management Letters, complete with traceable citations and formatted sections.
+Allisonm, a fictional yet relatable auditor — once juggled scattered audit notes, tedious evidence checks, and manual source tracing. Today, a custom-built AI tool scans thousands of pages, extracts key issues, and drafts Management Letters with traceable citations and properly formatted sections.
 
-Built as a Microsoft Word add-in, it cut prep time by 80%, reduced errors by 70%, and doubled issue-identification speed — proof that smartly designed AI can fix real professional pain points while driving serious productivity.
+Built as a Microsoft Word add-in, it cut preparation time by 80%, reduced errors by 70%, and doubled issue-identification speed — clear proof that well-designed AI solutions can solve real professional challenges while boosting productivity.
 
 ## Impact
 - **80%**  
@@ -24,7 +24,7 @@ issue-identification speed
 
 The tool is slated to be released firmwide by Q2 2026, benefiting both internal and external auditors. The rollout will require domain-specific audit data and collaboration with subject matter experts to fine-tune issue identification and citation generation.
 
-> "This is a must have for the global team, lets bring this up to the global heads to have a discussion how could we introduce the new way of management letter preparation." — Audit Innovation Partner
+> "This is a must have for the global team, lets bring this up to the global heads to have a discussion how could we introduce the new way of management letter preparation. The intuitiveness of the management letter preparation experience is worth looking into." — Audit Innovation Partner
 
 ## Discovery
 
