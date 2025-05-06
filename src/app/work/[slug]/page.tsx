@@ -3,23 +3,22 @@ import { getCaseStudyContent } from '@/lib/case-studies';
 import { CaseStudyContent } from '@/components/case-study-content';
 import { CaseStudiesList } from '@/components/case-studies-list';
 
-export async function generateStaticParams(): Promise<{
-  params: { slug: string }
-}[]> {
+export async function generateStaticParams() {
   const caseStudies = await getCaseStudyContent();
   return caseStudies.map(study => ({
-    params: {
-      slug: study.slug as string
-    }
+    slug: study.slug as string
   }));
 }
 
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
 export default async function CaseStudyPage({
-  params,
-}: {
-  params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+  params
+}: PageProps) {
   const { slug } = params;
   const caseStudies = await getCaseStudyContent();
   const caseStudy = caseStudies.find(study => study.slug === slug);
