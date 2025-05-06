@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function CaseStudyPage({ params }: { params: { slug: string } }) {
-  const { slug } = await params;
+  const { slug } = params;
   const caseStudies = await getCaseStudyContent();
   const caseStudy = caseStudies.find(study => study.slug === slug);
 
