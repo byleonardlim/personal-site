@@ -6,19 +6,16 @@ import { CaseStudiesList } from '@/components/case-studies-list';
 export async function generateStaticParams() {
   const caseStudies = await getCaseStudyContent();
   return caseStudies.map(study => ({
-    slug: study.slug as string
+    slug: study.slug as string,
   }));
 }
 
 interface PageProps {
-  params: {
-    slug: string;
-  };
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default async function CaseStudyPage({
-  params
-}: PageProps) {
+export default async function CaseStudyPage({ params }: PageProps) {
   const { slug } = params;
   const caseStudies = await getCaseStudyContent();
   const caseStudy = caseStudies.find(study => study.slug === slug);
