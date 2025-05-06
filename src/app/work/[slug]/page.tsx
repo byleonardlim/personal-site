@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import { getCaseStudyContent } from '@/lib/case-studies';
-import { defaultSEOConfig } from '@/lib/seo';
 import { CaseStudyContent } from '@/components/case-study-content';
 import { CaseStudiesList } from '@/components/case-studies-list';
 
@@ -9,44 +8,11 @@ export async function generateStaticParams() {
   return caseStudies.map(study => ({ slug: study.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const { slug } = params;
-  const caseStudies = await getCaseStudyContent();
-  const caseStudy = caseStudies.find(study => study.slug === slug);
-
-  if (!caseStudy) {
-    return {
-      title: 'Case Study Not Found | Leonard Lim - Independent UX Design Consultant',
-      description: 'The requested case study could not be found',
-    };
-  }
-
-  return {
-    title: `${caseStudy.title} | ${defaultSEOConfig.defaultTitle}`,
-    description: caseStudy.description || `Case study about ${caseStudy.industry} project`,
-    keywords: [...caseStudy.tags, caseStudy.industry, 'case study', 'project'].join(', '),
-    openGraph: {
-      ...defaultSEOConfig.openGraph,
-      title: caseStudy.title,
-      description: caseStudy.description || `Case study about ${caseStudy.industry} project`,
-      url: `https://byleonardlim.com/work/${caseStudy.slug}`,
-      type: 'article',
-      article: {
-        readingTime: caseStudy.readingTime,
-        section: 'Case Studies',
-      },
-    },
-  };
-}
-
 export default async function CaseStudyPage({
   params,
 }: {
   params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const { slug } = params;
   const caseStudies = await getCaseStudyContent();

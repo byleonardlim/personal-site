@@ -6,23 +6,6 @@ import { ExperienceCard } from '@/components/experience-card';
 import AnimatedHeadline from '@/components/animated-headline';
 import Section from '@/components/section';
 import { aboutContent } from '@/lib/about';
-import { defaultSEOConfig } from '@/lib/seo';
-
-export async function generateMetadata() {
-  return {
-    title: defaultSEOConfig.defaultTitle,
-    description: defaultSEOConfig.description,
-    keywords: defaultSEOConfig.additionalMetaTags?.[0]?.content,
-    openGraph: defaultSEOConfig.openGraph ? {
-      title: defaultSEOConfig.defaultTitle,
-      description: defaultSEOConfig.description,
-      url: defaultSEOConfig.openGraph.url,
-      type: defaultSEOConfig.openGraph.type,
-      siteName: defaultSEOConfig.openGraph.siteName,
-      images: defaultSEOConfig.openGraph.images,
-    } : undefined,
-  };
-}
 
 export default async function Home() {
   const caseStudies = await getCaseStudyContent();
