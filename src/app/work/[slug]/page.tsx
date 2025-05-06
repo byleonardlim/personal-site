@@ -3,9 +3,15 @@ import { getCaseStudyContent } from '@/lib/case-studies';
 import { CaseStudyContent } from '@/components/case-study-content';
 import { CaseStudiesList } from '@/components/case-studies-list';
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{
+  params: { slug: string }
+}[]> {
   const caseStudies = await getCaseStudyContent();
-  return caseStudies.map(study => ({ params: { slug: study.slug } })); // Added 'params' key
+  return caseStudies.map(study => ({
+    params: {
+      slug: study.slug as string
+    }
+  }));
 }
 
 export default async function CaseStudyPage({
