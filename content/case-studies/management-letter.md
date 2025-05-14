@@ -2,7 +2,7 @@
 title: "From Audit Findings to Management Letters in Minutes with AI"
 year: "2025"
 industry: "Enterprise"
-role: "Lead UX Designer"
+role: "IC Designer"
 tags: ["AI/ML", "GenAI", "Product Design", "UX"]
 featured: true
 ---
@@ -10,7 +10,7 @@ featured: true
 ## Overview
 This case study showcases how an AI-powered Management Letter tool transformed a frustrating, time-consuming task into a fast, reliable, and hassle-free process. The product is part of a larger ecosystem aimed at reshaping how auditors conduct audits and communicate with clients efficiently.
 
-Allisonm, a fictional yet relatable auditor — once juggled scattered audit notes, tedious evidence checks, and manual source tracing. Today, a custom-built AI tool scans thousands of pages, extracts key issues, and drafts Management Letters with traceable citations and properly formatted sections.
+Allison, a fictional yet relatable auditor — once juggled scattered audit notes, tedious evidence checks, and manual source tracing. Today, a custom-built AI tool scans thousands of pages, extracts key issues, and drafts Management Letters with traceable citations and properly formatted sections.
 
 Built as a Microsoft Word add-in, it cut preparation time by 80%, reduced errors by 70%, and doubled issue-identification speed — clear proof that well-designed AI solutions can solve real professional challenges while boosting productivity.
 

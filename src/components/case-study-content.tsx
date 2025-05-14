@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 
-import { SectionNav } from './section-nav';
+import SectionNav from './section-nav';
 import { Tags } from './tag';
 import type { Components } from 'react-markdown';
 
