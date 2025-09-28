@@ -14,26 +14,43 @@ function getCurrentChoice(): ThemeChoice {
   return "system";
 }
 
-function applyTheme(choice: ThemeChoice) {
+function applyTheme(choice: ThemeChoice, withTransition = false) {
   if (typeof document === "undefined") return;
+  const root = document.documentElement;
   const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const wantDark = choice === "dark" || (choice === "system" && systemDark);
-  document.documentElement.classList.toggle("dark", wantDark);
+
+  if (withTransition) {
+    // Add a temporary class to animate color-related properties
+    root.classList.add("theme-transition");
+    // Next frame, toggle theme so transitions kick in
+    requestAnimationFrame(() => {
+      root.classList.toggle("dark", wantDark);
+      // Remove transition class after duration
+      setTimeout(() => root.classList.remove("theme-transition"), 320);
+    });
+  } else {
+    root.classList.toggle("dark", wantDark);
+  }
 }
 
 export default function ThemeToggle({ className = "" }: { className?: string }) {
-  const [choice, setChoice] = useState<ThemeChoice>(() => getCurrentChoice());
+  // Initialize to 'system' on both server and client to keep SSR/CSR markup identical
+  const [choice, setChoice] = useState<ThemeChoice>("system");
 
   // Apply immediately on mount to avoid mismatch
   useEffect(() => {
-    applyTheme(choice);
+    // Sync choice from storage/system after mount, then apply with no transition
+    const current = getCurrentChoice();
+    setChoice(current);
+    applyTheme(current, false);
   }, []);
 
   // Respond to system changes when in system mode
   useEffect(() => {
     const mql = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = () => {
-      if (choice === "system") applyTheme("system");
+      if (choice === "system") applyTheme("system", true);
     };
     mql.addEventListener?.("change", handler);
     return () => mql.removeEventListener?.("change", handler);
@@ -46,7 +63,7 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
     } else {
       localStorage.setItem("theme", next);
     }
-    applyTheme(next);
+    applyTheme(next, true);
   };
 
   const buttonBase =
