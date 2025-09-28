@@ -1,0 +1,23 @@
+{
+  "pages": {
+    "/work/[slug]/page": [
+      "static/chunks/[root-of-the-server]__d85e1fa8._.css",
+      "static/chunks/32a9e_next_dist_8bfaaeec._.js",
+      "static/chunks/src_app_layout_tsx_e0c3d4b4._.js",
+      "static/chunks/32a9e_next_c05a5497._.js",
+      "static/chunks/a2029_micromark_dev_lib_33943764._.js",
+      "static/chunks/42800_micromark-core-commonmark_dev_lib_f3ec2821._.js",
+      "static/chunks/909d5_gsap_2ffce8c3._.js",
+      "static/chunks/node_modules__pnpm_d653be9c._.js",
+      "static/chunks/src_components_60b5fb45._.js",
+      "static/chunks/src_app_work_[slug]_page_tsx_deb259f6._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_60b49885._.js",
+      "static/chunks/32a9e_next_dist_compiled_e64c8dbd._.js",
+      "static/chunks/32a9e_next_dist_client_56a827c2._.js",
+      "static/chunks/32a9e_next_dist_1143052f._.js",
+      "static/chunks/61dca_@swc_helpers_cjs_e27e0aca._.js",
+      "static/chunks/_e69f0d32._.js",
+      "static/chunks/_98bd08c6._.js"
+    ]
+  }
+}

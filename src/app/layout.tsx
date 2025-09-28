@@ -19,7 +19,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={fragmentMono.variable}>
+    <html lang="en" className={fragmentMono.variable} suppressHydrationWarning>
+      <head>
+        {/* No-flash theme script: sets the `.dark` class before paint based on user preference or system */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => {
+  try {
+    const ls = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const wantDark = ls === 'dark' || (ls === null && systemDark);
+    document.documentElement.classList.toggle('dark', wantDark);
+  } catch (e) { /* no-op */ }
+})();`,
+          }}
+        />
+      </head>
       <body
         className={fragmentMono.variable}
       >

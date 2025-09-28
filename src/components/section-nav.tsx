@@ -163,7 +163,7 @@ export default function SectionNav({
   return (
     <nav
       ref={navRef}
-      className={`hidden lg:block fixed left-1/2 bottom-10 z-50 bg-white/90 backdrop-blur-sm p-2 shadow-lg border border-gray-200 rounded-xs ${className}`}
+      className={`hidden lg:block fixed left-1/2 bottom-10 z-50 bg-white/90 dark:bg-neutral-900/80 backdrop-blur-sm p-2 shadow-lg border border-gray-200 dark:border-neutral-700 rounded-xs ${className}`}
       style={{
         opacity: 0,
         transform: 'translateX(-50%) translateY(20px)',
@@ -181,7 +181,7 @@ export default function SectionNav({
             className={`px-3 py-1 text-sm font-medium uppercase transition-colors duration-200 ${
               activeSection === section.id
                 ? 'bg-green-500 text-white'
-                : 'text-neutral-600 hover:text-green-600'
+                : 'text-neutral-600 dark:text-neutral-400 hover:text-green-600 dark:hover:text-green-400'
             }`}
             aria-current={activeSection === section.id ? 'page' : undefined}
             aria-label={`Jump to section: ${section.title}`}

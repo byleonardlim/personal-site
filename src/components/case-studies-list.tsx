@@ -11,14 +11,14 @@ interface CaseStudiesListProps {
 export function CaseStudiesList({ caseStudies, currentSlug }: CaseStudiesListProps) {
   return (
     <div className="mt-16 lg:mb-32 border-t border-neutral-200 dark:border-neutral-700 px-2 py-4 max-w-5xl md:max-w-3xl mx-auto">
-      <h2 className="text-md font-medium mb-4 uppercase">More Selected Work</h2>
+      <h2 className="text-md font-medium mb-4 uppercase text-neutral-700 dark:text-neutral-300">More Selected Work</h2>
       <div className="flex flex-col space-y-4">
         {caseStudies.map((study) => (
-          <div key={study.slug} className={`py-4 ${study.slug === currentSlug ? 'text-green-600' : 'hover:text-green-600'}`}>
+          <div key={study.slug} className={`py-4 ${study.slug === currentSlug ? 'text-green-600 dark:text-green-400' : 'hover:text-green-600 dark:hover:text-green-400'}`}>
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-2">
               <Link
                 href={`/work/${study.slug}`}
-                className="block text-sm font-medium text-neutral-900 dark:text-neutral-300 hover:text-green-600 underline order-last lg:order-first transition-colors duration-200"
+                className="block text-sm font-medium text-neutral-900 dark:text-neutral-300 hover:text-green-600 dark:hover:text-green-400 underline order-last lg:order-first transition-colors duration-200"
               >
                 {study.title}
               </Link>

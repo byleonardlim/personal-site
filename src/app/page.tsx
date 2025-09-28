@@ -6,6 +6,7 @@ import { ExperienceCard } from '@/components/experience-card';
 import AnimatedHeadline from '@/components/animated-headline';
 import Section from '@/components/section';
 import { aboutContent } from '@/lib/about';
+import Header from '@/components/header';
 
 export default async function Home() {
   const caseStudies = await getCaseStudyContent();
@@ -14,6 +15,7 @@ export default async function Home() {
 
   return (
     <div className="max-w-5xl mx-auto min-h-screen px-2 text-sm">
+      <Header />
       {/* Hero Section */}
       <Section className="pb-16 h-dvh border-0 flex items-center overflow-hidden text-2xl lg:text-3xl font-medium">
         <h1 className="mb-4">

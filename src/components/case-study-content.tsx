@@ -111,14 +111,14 @@ const MarkdownComponents: Components = {
   ),
   ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
     <ul {...props} className="list-none p-0 mb-8">
-      <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 text-green-600 font-medium">
+      <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 text-green-600 dark:text-green-400 font-medium">
         {children}
       </div>
     </ul>
   ),
   ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
     <ol {...props} className="list-decimal p-0 ml-8 mb-8">
-      <div className="flex flex-col space-y-4 text-green-600 font-medium">
+      <div className="flex flex-col space-y-4 text-green-600 dark:text-green-400 font-medium">
         {children}
       </div>
     </ol>
@@ -131,7 +131,7 @@ const MarkdownComponents: Components = {
   a: ({ href, children }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
       href={href}
-      className="text-blue-600 hover:text-blue-800 underline"
+      className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline transition-colors"
       target={href?.startsWith('http') ? '_blank' : undefined}
       rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
     >
@@ -156,13 +156,13 @@ const MarkdownComponents: Components = {
   code: ({ inline, children, ...props }: { inline?: boolean } & React.HTMLAttributes<HTMLElement>) => {
     if (inline) {
       return (
-        <code className="bg-gray-100 px-2 py-1 rounded font-mono text-sm">
+        <code className="bg-gray-100 dark:bg-gray-900 dark:text-gray-100 px-2 py-1 rounded font-mono text-sm">
           {children}
         </code>
       );
     }
     return (
-      <pre className="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto">
+      <pre className="bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white p-4 rounded-lg overflow-x-auto">
         <code {...props}>
           {children}
         </code>
