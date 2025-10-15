@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import { getCaseStudyContent } from '@/lib/case-studies';
 import { CaseStudyContent } from '@/components/case-study-content';
 import { CaseStudiesList } from '@/components/case-studies-list';
-import Header from '@/components/header';
 
 export async function generateStaticParams() {
   const caseStudies = await getCaseStudyContent();

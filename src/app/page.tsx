@@ -6,7 +6,6 @@ import { ExperienceCard } from '@/components/experience-card';
 import AnimatedHeadline from '@/components/animated-headline';
 import Section from '@/components/section';
 import { aboutContent } from '@/lib/about';
-import Header from '@/components/header';
 import LoopingScroll from '@/components/looping-scroll';
 import FloatingBar from '@/components/floating-bar';
 
