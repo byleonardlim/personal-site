@@ -17,7 +17,6 @@ export default async function Home() {
 
   return (
     <LoopingScroll className="max-w-screen mx-auto px-2 text-sm">
-      <Header />
       {/* Hero Section */}
       <Section className="max-w-6xl mx-auto pb-16 h-dvh border-0 flex items-center overflow-hidden text-2xl lg:text-3xl font-medium">
         <h1 className="mb-4">

@@ -49,8 +49,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   }
 
   return (
-    <div className="max-w-5xl mx-auto min-h-screen px-2">
-      <Header />       
+    <div className="max-w-5xl mx-auto min-h-screen px-2">    
       <CaseStudyContent
         content={caseStudy.content}
         title={caseStudy.title}

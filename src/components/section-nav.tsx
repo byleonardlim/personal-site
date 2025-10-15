@@ -24,6 +24,9 @@ export default function SectionNav({
   const [isVisible, setIsVisible] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const highlightRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   // Initialize Intersection Observer to track section visibility
   useEffect(() => {
@@ -96,6 +99,40 @@ export default function SectionNav({
       clearTimeout(timeoutId);
     };
   }, [sections, isVisible]);
+
+  // Animate and position the sliding highlight behind the active button
+  useEffect(() => {
+    const updateHighlight = () => {
+      const btn = buttonRefs.current[activeSection];
+      const container = containerRef.current;
+      const highlight = highlightRef.current;
+      if (!btn || !container || !highlight) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = btn.getBoundingClientRect();
+      const left = btnRect.left - containerRect.left;
+      const width = btnRect.width;
+      const height = btnRect.height;
+
+      gsap.killTweensOf(highlight);
+      gsap.to(highlight, {
+        x: left,
+        width,
+        height,
+        opacity: 1,
+        duration: 0.3,
+        ease: 'power2.out',
+      });
+    };
+
+    updateHighlight();
+
+    // Keep highlight aligned on resize
+    window.addEventListener('resize', updateHighlight);
+    return () => {
+      window.removeEventListener('resize', updateHighlight);
+    };
+  }, [activeSection, isVisible]);
 
   // Handle nav show/hide animation
   useEffect(() => {
@@ -173,14 +210,23 @@ export default function SectionNav({
       aria-label="Navigation"
       role="navigation"
     >
-      <div className="flex space-x-4">
+      <div ref={containerRef} className="relative flex space-x-4">
+        <div
+          ref={highlightRef}
+          className="absolute top-0 left-0 rounded-xs bg-green-500 pointer-events-none"
+          style={{ opacity: 0, width: 0, height: 0, zIndex: 0 }}
+          aria-hidden
+        />
         {sections.map((section) => (
           <button
             key={section.id}
             onClick={() => handleSectionClick(section.id)}
-            className={`px-3 py-1 text-sm font-medium uppercase transition-colors duration-200 ${
+            ref={(el) => {
+              buttonRefs.current[section.id] = el;
+            }}
+            className={`relative z-[1] px-3 py-1 text-sm font-medium uppercase transition-colors duration-200 ${
               activeSection === section.id
-                ? 'bg-green-500 text-white'
+                ? 'text-white'
                 : 'text-neutral-600 dark:text-neutral-400 hover:text-green-600 dark:hover:text-green-400'
             }`}
             aria-current={activeSection === section.id ? 'page' : undefined}
