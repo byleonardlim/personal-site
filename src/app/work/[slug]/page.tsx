@@ -11,12 +11,8 @@ export async function generateStaticParams() {
   }));
 }
 
-interface PageProps {
-  params: { slug: string };
-}
-
-export async function generateMetadata({ params }: PageProps) {
-  const { slug } = params;
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const caseStudies = await getCaseStudyContent();
   const cs = caseStudies.find(study => study.slug === slug);
   if (!cs) return {};
@@ -43,8 +39,8 @@ export async function generateMetadata({ params }: PageProps) {
   } as const;
 }
 
-export default async function CaseStudyPage({ params }: PageProps) {
-  const { slug } = params;
+export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const caseStudies = await getCaseStudyContent();
   const caseStudy = caseStudies.find(study => study.slug === slug);
 
