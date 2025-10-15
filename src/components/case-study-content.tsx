@@ -89,10 +89,10 @@ const MarkdownComponents: Components = {
         <Image
           src={normalizedSrc}
           alt="Case study content"
-          className="w-full rounded-xs shadow-md"
+          className="w-full rounded-xs shadow-lg"
           width={1200}
           height={630}
-          priority={true}
+          sizes="(min-width: 1024px) 768px, 100vw"
         />
       </figure>
     );
@@ -182,7 +182,7 @@ export function CaseStudyContent({ content, title, readingTime, tags }: CaseStud
   return (
     <div className="relative">
       <SectionNav sections={sections} />
-      <article className="p-2 lg:p-0 prose text-sm leading-tight">
+      <article className="p-2 lg:p-0 prose leading-normal">
         <section className="h-dvh pb-16 flex flex-col justify-center max-w-5xl md:max-w-3xl mx-auto">
           <span className="block mb-4 text-xs text-neutral-600 dark:text-neutral-400 uppercase">{readingTime}</span>
           <h1 className="text-2xl lg:text-3xl mb-4">{title}</h1>
@@ -193,7 +193,7 @@ export function CaseStudyContent({ content, title, readingTime, tags }: CaseStud
           </div>
         </section>
         {sections.map((section) => (
-          <section key={section.id} id={section.id} className="mb-16 max-w-5xl md:max-w-3xl mx-auto">
+          <section key={section.id} id={section.id} className="mb-32 max-w-5xl md:max-w-3xl mx-auto">
             <h2 className="text-md font-medium mb-4 uppercase text-green-700 dark:text-green-300">{section.title}</h2>
             <div className="space-y-8">
               <ReactMarkdown

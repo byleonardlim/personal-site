@@ -12,11 +12,39 @@ export async function generateStaticParams() {
 }
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
+}
+
+export async function generateMetadata({ params }: PageProps) {
+  const { slug } = params;
+  const caseStudies = await getCaseStudyContent();
+  const cs = caseStudies.find(study => study.slug === slug);
+  if (!cs) return {};
+
+  const title = cs.title;
+  const description = cs.description || `Case study: ${cs.title}`;
+  const url = `https://byleonardlim.com/work/${slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  } as const;
 }
 
 export default async function CaseStudyPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { slug } = params;
   const caseStudies = await getCaseStudyContent();
   const caseStudy = caseStudies.find(study => study.slug === slug);
 
@@ -24,15 +52,13 @@ export default async function CaseStudyPage({ params }: PageProps) {
     notFound();
   }
 
-  const readingTime = Math.ceil(caseStudy.content.split(' ').length / 200) + ' min read';
-
   return (
-    <div className="max-w-5xl mx-auto min-h-screen px-2 text-sm">
+    <div className="max-w-5xl mx-auto min-h-screen px-2">
       <Header />       
       <CaseStudyContent
         content={caseStudy.content}
         title={caseStudy.title}
-        readingTime={readingTime}
+        readingTime={caseStudy.readingTime}
         industry={caseStudy.industry}
         tags={caseStudy.tags}
       />

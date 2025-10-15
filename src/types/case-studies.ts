@@ -10,4 +10,6 @@ export interface CaseStudy {
   featured: boolean;
   description?: string;
   date?: string;
+  role?: string;
+  coverImage?: string;
 }

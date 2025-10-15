@@ -7,6 +7,8 @@ import AnimatedHeadline from '@/components/animated-headline';
 import Section from '@/components/section';
 import { aboutContent } from '@/lib/about';
 import Header from '@/components/header';
+import LoopingScroll from '@/components/looping-scroll';
+import FloatingBar from '@/components/floating-bar';
 
 export default async function Home() {
   const caseStudies = await getCaseStudyContent();
@@ -14,18 +16,18 @@ export default async function Home() {
   caseStudies.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
   return (
-    <div className="max-w-5xl mx-auto min-h-screen px-2 text-sm">
+    <LoopingScroll className="max-w-screen mx-auto px-2 text-sm">
       <Header />
       {/* Hero Section */}
-      <Section className="pb-16 h-dvh border-0 flex items-center overflow-hidden text-2xl lg:text-3xl font-medium">
+      <Section className="max-w-6xl mx-auto pb-16 h-dvh border-0 flex items-center overflow-hidden text-2xl lg:text-3xl font-medium">
         <h1 className="mb-4">
-          <span className="block text-green-600">By, Leonard Lim.</span>
+          <span className="block text-green-600">Leonard Lim.</span>
           <AnimatedHeadline />
         </h1>
       </Section>
 
       {/* About Section */}
-      <Section>
+      <Section className="max-w-6xl mx-auto">
         <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
           About
         </h2>
@@ -35,7 +37,7 @@ export default async function Home() {
       </Section>
 
       {/* Work Section */}
-      <Section>
+      <Section className="max-w-6xl mx-auto">
       <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
           Selected Work
         </h2>
@@ -50,7 +52,7 @@ export default async function Home() {
       </Section>
 
       {/* Experience Section */}
-      <Section>
+      <Section className="max-w-6xl mx-auto">
       <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
           Recent Experience
         </h2>
@@ -82,7 +84,7 @@ export default async function Home() {
       </Section>
 
       {/* Connect Section */}
-      <Section>
+      <Section className="max-w-6xl mx-auto">
         <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300"> 
           Connect
         </h2>
@@ -107,6 +109,7 @@ export default async function Home() {
           </div>
         </div>
       </Section>
-    </div>
+      <FloatingBar />
+    </LoopingScroll>
   );
 }

@@ -10,7 +10,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-mono: var(--font-fragment-mono);
+  --font-sans: var(--font-overpass);
 }
 
 /* When .dark is present on <html>, swap variables for dark mode */
@@ -22,7 +22,7 @@ html.dark {
 html, body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-fragment-mono), monospace;
+  font-family: var(--font-overpass), sans-serif;
 }
 
 /* Smooth theme transitions when toggling (no effect on initial load) */

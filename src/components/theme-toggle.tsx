@@ -56,13 +56,16 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
     return () => mql.removeEventListener?.("change", handler);
   }, [choice]);
 
-  const onSelect = (next: ThemeChoice) => {
-    setChoice(next);
-    if (next === "system") {
-      localStorage.removeItem("theme");
+  const onToggle = () => {
+    let next: ThemeChoice;
+    if (choice === "system") {
+      const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      next = systemDark ? "light" : "dark";
     } else {
-      localStorage.setItem("theme", next);
+      next = choice === "dark" ? "light" : "dark";
     }
+    setChoice(next);
+    localStorage.setItem("theme", next);
     applyTheme(next, true);
   };
 
@@ -70,37 +73,21 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
     "inline-flex items-center gap-1 px-2 py-1 rounded border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors";
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <button
-        type="button"
-        aria-pressed={choice === "light"}
-        onClick={() => onSelect("light")}
-        className={buttonBase}
-        title="Light"
-      >
-        <Sun className="w-4 h-4" />
-        <span className="sr-only">Light</span>
-      </button>
-      <button
-        type="button"
-        aria-pressed={choice === "dark"}
-        onClick={() => onSelect("dark")}
-        className={buttonBase}
-        title="Dark"
-      >
-        <Moon className="w-4 h-4" />
-        <span className="sr-only">Dark</span>
-      </button>
-      <button
-        type="button"
-        aria-pressed={choice === "system"}
-        onClick={() => onSelect("system")}
-        className={buttonBase}
-        title="System"
-      >
+    <button
+      type="button"
+      onClick={onToggle}
+      className={`${buttonBase} ${className}`}
+      title="Toggle theme"
+      aria-label="Toggle theme"
+    >
+      {choice === "system" ? (
         <Laptop className="w-4 h-4" />
-        <span className="sr-only">System</span>
-      </button>
-    </div>
+      ) : choice === "dark" ? (
+        <Moon className="w-4 h-4" />
+      ) : (
+        <Sun className="w-4 h-4" />
+      )}
+      <span className="sr-only">Toggle theme</span>
+    </button>
   );
 }

@@ -2,6 +2,13 @@ import { Experience } from '@/types/experience';
 
 export const experienceData: Experience[] = [
   {
+    title: 'AI Design Engineer',
+    company: 'GIC - Contracted by Astek',
+    location: 'Singapore',
+    startDate: '2025-07',
+    endDate: 'Present',
+    tags: ['UX', 'Rapid Prototyping', 'Design Management', 'GenAI', 'AI/ML', 'Design Process']
+  },{
     title: 'UX Lead - AI Experience Design',
     company: 'KPMG',
     location: 'Singapore',

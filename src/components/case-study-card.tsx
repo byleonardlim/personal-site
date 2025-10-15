@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Tags } from './tag';
 
 interface CaseStudyCardProps {
@@ -22,16 +22,10 @@ export default function CaseStudyCard({
   tags,
   featured,
 }: CaseStudyCardProps) {
-  const router = useRouter();
-
-  const handleCardClick = () => {
-    router.push(`/work/${slug}`);
-  };
-
   return (
-    <div
-      onClick={handleCardClick}
-      className="group cursor-pointer overflow-hidden transition-all duration-300"
+    <Link
+      href={`/work/${slug}`}
+      className="group block overflow-hidden transition-all duration-300"
     >
       <h3 className="underline text-md text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">
         {title}
@@ -45,6 +39,6 @@ export default function CaseStudyCard({
         <span className='block lg:inline'>{readingTime}</span>
       </div>
       <Tags tags={tags} />
-    </div>
+    </Link>
   );
 }
