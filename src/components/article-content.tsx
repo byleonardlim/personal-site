@@ -9,7 +9,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeUnwrapImages from 'rehype-unwrap-images';
 import { defaultSchema } from 'hast-util-sanitize';
-import { Children, isValidElement } from 'react';
+import { Children, isValidElement, cloneElement } from 'react';
 import type { ReactNode, ReactElement } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -20,7 +20,7 @@ import { Tags } from './tag';
 import type { Components } from 'react-markdown';
 import type { Section } from '@/lib/markdown';
 
-interface CaseStudyContentProps {
+interface ArticleContentProps {
   title: string;
   readingTime: string;
   industry: string;
@@ -251,7 +251,7 @@ const ImgRenderer = ({ src, srcSet }: React.ImgHTMLAttributes<HTMLImageElement>)
       <figure className="relative w-full h-full overflow-hidden mb-8 p-2 lg:p-4 bg-gradient-to-t from-transparent to-neutral-100 dark:to-neutral-800 pointer-events-none">
         <Image
           src={normalizedSrc}
-          alt="Case study content"
+          alt="Article content"
           className="w-full rounded-xs shadow-lg"
           width={1200}
           height={630}
@@ -316,21 +316,26 @@ const MarkdownComponents: Components = {
     <h6 {...props} className="text-sm mb-2">{children}</h6>
   ),
   ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul {...props} className="list-none p-0 mb-8">
-      <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 text-green-600 dark:text-green-400 font-medium">
-        {children}
-      </div>
+    <ul {...props} className="grid gap-4 sm:grid-cols-2 mb-8 p-0 list-none">
+      {Children.map(children, (child) => {
+        if (isValidElement(child)) {
+          const element = child as ReactElement<{ className?: string }>;
+          const existing = (element.props?.className ?? '').toString().trim();
+          return cloneElement(element, {
+            className: `${existing} rounded-md border border-neutral-200/80 dark:border-neutral-800 bg-white/60 dark:bg-neutral-900/60 shadow-sm p-4 hover:shadow-md transition`.replace(/\s+/g, ' ').trim(),
+          });
+        }
+        return child;
+      })}
     </ul>
   ),
   ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol {...props} className="list-decimal p-0 ml-8 mb-8">
-      <div className="flex flex-col space-y-4 text-green-600 dark:text-green-400 font-medium">
-        {children}
-      </div>
+    <ol {...props} className="list-decimal pl-6 space-y-2 mb-8">
+      {children}
     </ol>
   ),
   li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
-    <li {...props} className='w-full'>
+    <li {...props}>
       {children}
     </li>
   ),
@@ -367,7 +372,7 @@ const MarkdownComponents: Components = {
   },
 } as const;
 
-export function CaseStudyContent({ title, readingTime, tags, sections }: CaseStudyContentProps) {
+export function ArticleContent({ title, readingTime, tags, sections }: ArticleContentProps) {
 
   return (
     <div className="relative">

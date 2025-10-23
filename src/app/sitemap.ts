@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { getCaseStudyContent } from '@/lib/case-studies';
+import { getArticleContent } from '@/lib/articles';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://byleonardlim.com';
@@ -12,9 +12,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const caseStudies = await getCaseStudyContent();
-  const workRoutes: MetadataRoute.Sitemap = caseStudies.map((cs) => ({
-    url: `${baseUrl}/work/${cs.slug}`,
+  const articles = await getArticleContent();
+  const workRoutes: MetadataRoute.Sitemap = articles.map((cs) => ({
+    url: `${baseUrl}/article/${cs.slug}`,
     changeFrequency: 'monthly',
     priority: 0.8,
   }));

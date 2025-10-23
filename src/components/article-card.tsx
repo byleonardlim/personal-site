@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Tags } from './tag';
 
-interface CaseStudyCardProps {
+interface ArticleCardProps {
   slug: string;
   title: string;
   year: string;
@@ -13,7 +13,7 @@ interface CaseStudyCardProps {
   featured?: boolean;
 }
 
-export default function CaseStudyCard({
+export default function ArticleCard({
   slug,
   title,
   year,
@@ -21,10 +21,10 @@ export default function CaseStudyCard({
   readingTime,
   tags,
   featured,
-}: CaseStudyCardProps) {
+}: ArticleCardProps) {
   return (
     <Link
-      href={`/work/${slug}`}
+      href={`/article/${slug}`}
       className="group block overflow-hidden transition-all duration-300"
     >
       <h3 className="underline text-md text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">

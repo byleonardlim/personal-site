@@ -1,6 +1,7 @@
 import { Mail, MapPin, ExternalLink } from 'lucide-react';
-import { getCaseStudyContent } from '@/lib/case-studies';
-import CaseStudyCard from '@/components/case-study-card';
+import { getArticleContent } from '@/lib/articles';
+import ArticleCard from '@/components/article-card';
+import type { Article } from '@/types/articles';
 import { experienceData } from '@/lib/experience';
 import { ExperienceCard } from '@/components/experience-card';
 import AnimatedHeadline from '@/components/animated-headline';
@@ -10,9 +11,9 @@ import LoopingScroll from '@/components/looping-scroll';
 import FloatingBar from '@/components/floating-bar';
 
 export default async function Home() {
-  const caseStudies = await getCaseStudyContent();
-  // Sort case studies with featured ones first
-  caseStudies.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  const articles: Article[] = await getArticleContent();
+  // Sort articles with featured ones first
+  articles.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
   return (
     <LoopingScroll className="max-w-screen mx-auto px-2 text-sm">
@@ -40,8 +41,8 @@ export default async function Home() {
           Selected Work
         </h2>
         <div className="space-y-8">
-          {caseStudies.map((study) => (
-            <CaseStudyCard
+          {articles.map((study: Article) => (
+            <ArticleCard
               key={study.slug}
               {...study}
             />

@@ -1,4 +1,4 @@
-export interface CaseStudy {
+export interface Article {
   slug: string;
   content: string;
   readingTime: string;
