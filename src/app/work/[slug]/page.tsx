@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { getCaseStudyContent } from '@/lib/case-studies';
 import { CaseStudyContent } from '@/components/case-study-content';
 import { CaseStudiesList } from '@/components/case-studies-list';
+import { parseMarkdownSections } from '@/lib/markdown';
 
 export async function generateStaticParams() {
   const caseStudies = await getCaseStudyContent();
@@ -47,14 +48,16 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
     notFound();
   }
 
+  const sections = parseMarkdownSections(caseStudy.content);
+
   return (
     <div className="max-w-5xl mx-auto min-h-screen px-2">    
       <CaseStudyContent
-        content={caseStudy.content}
         title={caseStudy.title}
         readingTime={caseStudy.readingTime}
         industry={caseStudy.industry}
         tags={caseStudy.tags}
+        sections={sections}
       />
       <CaseStudiesList
         caseStudies={caseStudies}

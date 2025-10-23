@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Overpass } from "next/font/google";
+import { Oxygen_Mono } from "next/font/google";
 import "./globals.css";
 
-const overpass = Overpass({
-  variable: "--font-overpass",
+const oxygenMono = Oxygen_Mono({
+  variable: "--font-oxygen-mono",
   subsets: ["latin"],
   weight: "400",
 });
@@ -49,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${overpass.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${oxygenMono.variable}`} suppressHydrationWarning>
       <head>
         {/* No-flash theme script: sets the `.dark` class before paint based on user preference or system */}
         <script
@@ -66,7 +66,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${overpass.variable}`}
+        className={`${oxygenMono.variable}`}
       >
         {children}
       </body>

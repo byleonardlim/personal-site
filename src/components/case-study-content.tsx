@@ -2,60 +2,31 @@
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { useEffect, useState } from 'react';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeExternalLinks from 'rehype-external-links';
+import rehypeUnwrapImages from 'rehype-unwrap-images';
+import { defaultSchema } from 'hast-util-sanitize';
+import { Children, isValidElement } from 'react';
+import type { ReactNode, ReactElement } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
 
-import SectionNav from './section-nav';
+const SectionNav = dynamic(() => import('./section-nav'), { ssr: false });
 import { Tags } from './tag';
 import type { Components } from 'react-markdown';
+import type { Section } from '@/lib/markdown';
 
 interface CaseStudyContentProps {
-  content: string;
   title: string;
   readingTime: string;
   industry: string;
   tags: string[];
+  sections: Section[];
 }
-
-interface Section {
-  title: string;
-  content: string;
-  id: string;
-  subSections?: Section[];
-}
-
-
-
-const generateSectionId = (title: string): string =>
-  title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-
-const parseMarkdownSections = (markdown: string): Section[] => {
-  const sections: Section[] = [];
-  let currentSection: Section | null = null;
-  const lines = markdown.split('\n');
-
-  lines.forEach((line) => {
-    if (line.startsWith('## ')) {
-      if (currentSection) {
-        sections.push(currentSection);
-      }
-      currentSection = { 
-        title: line.replace('## ', ''), 
-        content: '',
-        id: generateSectionId(line.replace('## ', ''))
-      };
-    } else if (currentSection) {
-      currentSection.content += line + '\n';
-    }
-  });
-
-  if (currentSection) {
-    sections.push(currentSection);
-  }
-
-  return sections;
-};
 
 const normalizeImagePath = (src: string | undefined): string | undefined => {
   if (!src) return undefined;
@@ -70,13 +41,205 @@ const normalizeImagePath = (src: string | undefined): string | undefined => {
   return `/${normalized}`;
 };
 
-const MarkdownComponents: Components = {
-  p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <div {...props} className="prose-p">
-      {children}
-    </div>
-  ),
-  img: ({ src, srcSet }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+// Sanitize schema to allow safe HTML with broader, commonly used tags/attributes
+const sanitizeSchema = {
+  ...defaultSchema,
+  tagNames: [
+    ...(defaultSchema.tagNames || []),
+    'figure',
+    'figcaption',
+    'picture',
+    'source',
+    'video',
+    'audio',
+    'track',
+    'svg',
+    'path',
+    'circle',
+    'rect',
+    'line',
+    'polyline',
+    'polygon',
+    'g',
+    'defs',
+    'symbol',
+    'use',
+    'details',
+    'summary',
+  ],
+  attributes: {
+    ...defaultSchema.attributes,
+    '*': [
+      ...((defaultSchema.attributes?.['*']) || []),
+      'className',
+      'id',
+      ['data-*'],
+      ['aria-*'],
+      'role',
+      'style',
+    ],
+    a: [
+      ...((defaultSchema.attributes?.['a']) || []),
+      'target',
+      'rel',
+      'aria-label',
+    ],
+    iframe: [
+      ...((defaultSchema.attributes?.['iframe']) || []),
+      'src',
+      'allow',
+      'allowfullscreen',
+      'loading',
+      'referrerpolicy',
+      'sandbox',
+      'width',
+      'height',
+    ],
+    img: [
+      ...((defaultSchema.attributes?.['img']) || []),
+      'src',
+      'srcSet',
+      'sizes',
+      'loading',
+      'decoding',
+      'alt',
+      'width',
+      'height',
+      'referrerpolicy',
+      'fetchpriority',
+    ],
+    picture: [
+      ...((defaultSchema.attributes?.['picture']) || []),
+    ],
+    source: [
+      ...((defaultSchema.attributes?.['source']) || []),
+      'src',
+      'srcSet',
+      'sizes',
+      'media',
+      'type',
+    ],
+    video: [
+      ...((defaultSchema.attributes?.['video']) || []),
+      'src',
+      'controls',
+      'autoplay',
+      'muted',
+      'loop',
+      'playsinline',
+      'poster',
+      'width',
+      'height',
+      'preload',
+      'crossorigin',
+    ],
+    audio: [
+      ...((defaultSchema.attributes?.['audio']) || []),
+      'src',
+      'controls',
+      'autoplay',
+      'muted',
+      'loop',
+      'preload',
+      'crossorigin',
+    ],
+    track: [
+      ...((defaultSchema.attributes?.['track']) || []),
+      'kind',
+      'src',
+      'srclang',
+      'label',
+      'default',
+    ],
+    svg: [
+      ...((defaultSchema.attributes?.['svg']) || []),
+      'viewBox',
+      'xmlns',
+      'width',
+      'height',
+      'fill',
+      'stroke',
+      'strokeWidth',
+      'strokeLinecap',
+      'strokeLinejoin',
+    ],
+    path: [
+      ...((defaultSchema.attributes?.['path']) || []),
+      'd',
+      'fill',
+      'stroke',
+      'strokeWidth',
+      'strokeLinecap',
+      'strokeLinejoin',
+    ],
+    circle: [
+      ...((defaultSchema.attributes?.['circle']) || []),
+      'cx',
+      'cy',
+      'r',
+      'fill',
+      'stroke',
+      'strokeWidth',
+    ],
+    rect: [
+      ...((defaultSchema.attributes?.['rect']) || []),
+      'x',
+      'y',
+      'width',
+      'height',
+      'rx',
+      'ry',
+      'fill',
+      'stroke',
+      'strokeWidth',
+    ],
+    line: [
+      ...((defaultSchema.attributes?.['line']) || []),
+      'x1',
+      'y1',
+      'x2',
+      'y2',
+      'stroke',
+      'strokeWidth',
+    ],
+    polyline: [
+      ...((defaultSchema.attributes?.['polyline']) || []),
+      'points',
+      'fill',
+      'stroke',
+      'strokeWidth',
+    ],
+    polygon: [
+      ...((defaultSchema.attributes?.['polygon']) || []),
+      'points',
+      'fill',
+      'stroke',
+      'strokeWidth',
+    ],
+    td: [
+      ...((defaultSchema.attributes?.['td']) || []),
+      'colSpan',
+      'rowSpan',
+      'align',
+    ],
+    th: [
+      ...((defaultSchema.attributes?.['th']) || []),
+      'colSpan',
+      'rowSpan',
+      'align',
+    ],
+    details: [
+      ...((defaultSchema.attributes?.['details']) || []),
+      'open',
+    ],
+    summary: [
+      ...((defaultSchema.attributes?.['summary']) || []),
+    ],
+  },
+} as const;
+
+// Isolated renderers so we can detect them in paragraph unwrapping logic
+const ImgRenderer = ({ src, srcSet }: React.ImgHTMLAttributes<HTMLImageElement>) => {
     const imageSrc = typeof src === 'string' ? src : srcSet;
     const normalizedSrc = normalizeImagePath(imageSrc);
 
@@ -96,7 +259,50 @@ const MarkdownComponents: Components = {
         />
       </figure>
     );
+};
+const AnchorRenderer = ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  <a
+    href={href}
+    {...props}
+    className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline transition-colors"
+  >
+    {children}
+  </a>
+);
+
+const isWhitespaceText = (child: ReactNode) => typeof child === 'string' && child.trim() === '';
+
+const MarkdownComponents: Components = {
+  p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => {
+    const kidArray = Children.toArray(children).filter((child: ReactNode) => !isWhitespaceText(child));
+
+    const isImgEl = (el: unknown) => isValidElement(el) && (el.type === 'img' || el.type === ImgRenderer);
+    const isAnchorEl = (el: unknown) => isValidElement(el) && (el.type === 'a' || el.type === AnchorRenderer);
+
+    if (kidArray.length === 1) {
+      const only = kidArray[0];
+      const imageOnly = isImgEl(only);
+      let anchorWithOnlyImage = false;
+      if (isValidElement(only) && isAnchorEl(only)) {
+        const el = only as ReactElement<{ children?: ReactNode | ReactNode[] }>;
+        const anchorChildren = el.props?.children;
+        anchorWithOnlyImage = Array.isArray(anchorChildren)
+          && Children.toArray(anchorChildren).filter((c: ReactNode) => !isWhitespaceText(c)).length === 1
+          && isImgEl(Children.toArray(anchorChildren).filter((c: ReactNode) => !isWhitespaceText(c))[0]);
+      }
+      if (imageOnly || anchorWithOnlyImage) {
+        // Unwrap to avoid <p> containing a <figure>
+        return <>{children}</>;
+      }
+    }
+
+    return (
+      <p {...props} className="prose-p">
+        {children}
+      </p>
+    );
   },
+  img: ImgRenderer,
   h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3 {...props} className="text-sm mb-3 uppercase">{children}</h3>
   ),
@@ -128,16 +334,7 @@ const MarkdownComponents: Components = {
       {children}
     </li>
   ),
-  a: ({ href, children }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a
-      href={href}
-      className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline transition-colors"
-      target={href?.startsWith('http') ? '_blank' : undefined}
-      rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-    >
-      {children}
-    </a>
-  ),
+  a: AnchorRenderer,
   strong: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <strong className="font-bold" {...props}>
       {children}
@@ -153,31 +350,24 @@ const MarkdownComponents: Components = {
       {children}
     </blockquote>
   ),
-  code: ({ inline, children, ...props }: { inline?: boolean } & React.HTMLAttributes<HTMLElement>) => {
+  code: ({ inline, className, children, ...props }: { inline?: boolean; className?: string } & React.HTMLAttributes<HTMLElement>) => {
     if (inline) {
       return (
-        <code className="bg-gray-100 dark:bg-gray-900 dark:text-gray-100 px-2 py-1 rounded font-mono text-sm">
+        <code className="bg-gray-100 dark:bg-gray-900 dark:text-gray-100 px-1.5 py-0.5 rounded font-mono text-[0.9em]">
           {children}
         </code>
       );
     }
+    // Let rehype-pretty-code handle block rendering; keep the default structure
     return (
-      <pre className="bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white p-4 rounded-lg overflow-x-auto">
-        <code {...props}>
-          {children}
-        </code>
-      </pre>
+      <code className={className} {...props}>
+        {children}
+      </code>
     );
   },
 } as const;
 
-export function CaseStudyContent({ content, title, readingTime, tags }: CaseStudyContentProps) {
-  const [sections, setSections] = useState<Section[]>([]);
-
-  useEffect(() => {
-    const parsedSections = parseMarkdownSections(content);
-    setSections(parsedSections);
-  }, [content]);
+export function CaseStudyContent({ title, readingTime, tags, sections }: CaseStudyContentProps) {
 
   return (
     <div className="relative">
@@ -198,6 +388,14 @@ export function CaseStudyContent({ content, title, readingTime, tags }: CaseStud
             <div className="space-y-8">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
+                rehypePlugins={[
+                  rehypeRaw,
+                  [rehypeSanitize, sanitizeSchema],
+                  rehypeUnwrapImages,
+                  rehypeSlug,
+                  [rehypeAutolinkHeadings, { behavior: 'append', properties: { className: ['anchor'] } }],
+                  [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
+                ]}
                 components={MarkdownComponents}
               >
                 {section.content}
@@ -209,3 +407,4 @@ export function CaseStudyContent({ content, title, readingTime, tags }: CaseStud
     </div>
   );
 }
+
