@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Mail, MapPin, ExternalLink } from 'lucide-react';
 import { getArticleContent } from '@/lib/articles';
 import ArticleCard from '@/components/article-card';
@@ -7,8 +8,20 @@ import { ExperienceCard } from '@/components/experience-card';
 import AnimatedHeadline from '@/components/animated-headline';
 import Section from '@/components/section';
 import { aboutContent } from '@/lib/about';
-import LoopingScroll from '@/components/looping-scroll';
 import FloatingBar from '@/components/floating-bar';
+
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ a?: string }> }): Promise<Metadata> {
+  const { a } = await searchParams;
+  if (!a) return {};
+  const articles: Article[] = await getArticleContent();
+  const article = articles.find(x => x.slug === a);
+  if (!article) return {};
+  const url = `https://byleonardlim.com/article/${article.slug}`;
+  return {
+    alternates: { canonical: url },
+    robots: { index: false, follow: true },
+  } as const;
+}
 
 export default async function Home() {
   const articles: Article[] = await getArticleContent();
@@ -16,7 +29,7 @@ export default async function Home() {
   articles.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
   return (
-    <LoopingScroll className="max-w-screen mx-auto px-2 text-sm">
+    <div className="max-w-screen mx-auto px-2 text-sm">
       {/* Hero Section */}
       <Section className="max-w-6xl mx-auto pb-16 h-dvh border-0 flex items-center overflow-hidden text-2xl lg:text-3xl font-medium">
         <h1 className="mb-4">
@@ -109,6 +122,6 @@ export default async function Home() {
         </div>
       </Section>
       <FloatingBar />
-    </LoopingScroll>
+    </div>
   );
 }

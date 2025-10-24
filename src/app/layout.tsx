@@ -45,8 +45,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  drawer,
 }: Readonly<{
   children: React.ReactNode;
+  drawer: React.ReactNode;
 }>) {
   return (
     <html lang="en" className={`${oxygenMono.variable}`} suppressHydrationWarning>
@@ -69,6 +71,7 @@ export default function RootLayout({
         className={`${oxygenMono.variable}`}
       >
         {children}
+        {drawer}
       </body>
     </html>
   );

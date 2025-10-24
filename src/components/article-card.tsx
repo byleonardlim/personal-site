@@ -24,7 +24,8 @@ export default function ArticleCard({
 }: ArticleCardProps) {
   return (
     <Link
-      href={`/article/${slug}`}
+      href={`/?a=${slug}`}
+      scroll={false}
       className="group block overflow-hidden transition-all duration-300"
     >
       <h3 className="underline text-md text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">

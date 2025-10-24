@@ -40,3 +40,10 @@ h1, h2, h3, h4, h5, h6 {
     transition-timing-function: ease-in-out;
   }
 }
+
+/* Smooth scroll for in-page navigation while respecting reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
