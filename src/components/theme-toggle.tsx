@@ -70,7 +70,7 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
   };
 
   const buttonBase =
-    "inline-flex items-center gap-1 px-2 py-1 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors";
+    "inline-flex items-center gap-1 px-2 py-1 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:cursor-pointer transition-colors";
 
   return (
     <button

@@ -99,7 +99,7 @@ export default function FloatingBar() {
       >
         <Link
           href="/"
-          className="px-2 py-1 text-sm tracking-widest text-neutral-900 dark:text-neutral-100 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
+          className="px-2 py-1 text-sm tracking-widest text-neutral-900 dark:text-neutral-100 hover:text-neutral-700 dark:hover:text-neutral-300 hover:cursor-pointer transition-colors"
           aria-label="Home"
         >
           BYLEONARDLIM
@@ -111,7 +111,7 @@ export default function FloatingBar() {
             <button
               type="button"
               onClick={() => router.push("/")}
-              className="inline-flex items-center gap-1 px-2 py-1 rounded border border-transparent text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100/80 dark:hover:bg-neutral-800/70 transition-colors"
+              className="inline-flex items-center gap-1 px-2 py-1 rounded border border-transparent text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100/80 dark:hover:bg-neutral-800/70 hover:cursor-pointer transition-colors"
               aria-label="Back to home"
               title="Back to home"
             >
@@ -123,7 +123,7 @@ export default function FloatingBar() {
             <button
               type="button"
               onClick={closeDrawer}
-              className="inline-flex items-center gap-1 px-2 py-1 rounded border border-transparent text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100/80 dark:hover:bg-neutral-800/70 transition-colors"
+              className="inline-flex items-center gap-1 px-2 py-1 rounded border border-transparent text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100/80 dark:hover:bg-neutral-800/70 hover:cursor-pointer transition-colors"
               aria-label="Close"
               title="Close"
             >
