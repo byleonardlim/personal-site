@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 import ThemeToggle from "@/components/theme-toggle";
 import { ArrowLeft, X } from "lucide-react";
 import { gsap } from "gsap";
@@ -94,8 +95,15 @@ export default function FloatingBar() {
     <div className="fixed top-4 left-0 right-0 z-[70]" data-drawer-exempt>
       <div
         ref={containerRef}
-        className={`mx-auto flex justify-end px-4 ${drawerOpen ? "lg:max-w-[90vw] lg:px-0" : "lg:max-w-6xl"}`}
+        className={`mx-auto flex items-center justify-between px-4 ${drawerOpen ? "lg:max-w-[90vw] lg:px-0" : "lg:max-w-6xl"}`}
       >
+        <Link
+          href="/"
+          className="px-2 py-1 text-sm tracking-widest text-neutral-900 dark:text-neutral-100 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
+          aria-label="Home"
+        >
+          BYLEONARDLIM
+        </Link>
         <div
           className={`flex items-center gap-2 rounded-sm border border-neutral-300/80 dark:border-neutral-700/70 bg-white/80 dark:bg-neutral-900/80 backdrop-blur px-2 py-1 transition-all duration-300 ease-out ${elevated || drawerOpen ? "shadow-lg" : "shadow-none"}`}
         >

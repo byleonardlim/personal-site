@@ -31,27 +31,16 @@ export default async function Home() {
   return (
     <div className="max-w-screen mx-auto px-2 text-sm">
       {/* Hero Section */}
-      <Section className="max-w-6xl mx-auto pb-16 h-dvh border-0 flex items-center overflow-hidden text-2xl lg:text-3xl font-medium">
-        <h1 className="mb-4">
-          <span className="block text-green-600">Leonard Lim.</span>
+      <Section className="max-w-6xl mx-auto pb-16 h-dvh border-0 flex items-center overflow-hidden">
+        <h1 className="mb-4 text-3xl lg:text-6xl">
           <AnimatedHeadline />
         </h1>
       </Section>
 
-      {/* About Section */}
-      <Section className="max-w-6xl mx-auto">
-        <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
-          About
-        </h2>
-        <p className="text-gray-800 dark:text-gray-200">
-          {aboutContent.bio}
-        </p>
-      </Section>
-
-      {/* Work Section */}
+      {/* Articles Section */}
       <Section className="max-w-6xl mx-auto">
       <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
-          Selected Work
+          Articles
         </h2>
         <div className="space-y-8">
           {articles.map((study: Article) => (
@@ -66,12 +55,17 @@ export default async function Home() {
       {/* Experience Section */}
       <Section className="max-w-6xl mx-auto">
       <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
-          Recent Experience
+          Experiences
         </h2>
         <div className="space-y-8">
           {experienceData
             .sort((a, b) => {
               // Place 'Present' at the top
+              if (a.endDate === 'Present' && b.endDate === 'Present') {
+                const startA = new Date(a.startDate);
+                const startB = new Date(b.startDate);
+                return startB.getTime() - startA.getTime();
+              }
               if (a.endDate === 'Present') return -1;
               if (b.endDate === 'Present') return 1;
               

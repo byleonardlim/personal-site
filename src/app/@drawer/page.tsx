@@ -1,6 +1,7 @@
 import { getArticleContent } from '@/lib/articles';
 import { parseMarkdownSections } from '@/lib/markdown';
 import { ArticleContent } from '@/components/article-content';
+import { ArticlesList } from '@/components/articles-list';
 import DrawerShell from '@/components/drawer-shell';
 
 export default async function DrawerSlot({ searchParams }: { searchParams: Promise<{ a?: string }> }) {
@@ -22,6 +23,10 @@ export default async function DrawerSlot({ searchParams }: { searchParams: Promi
           industry={article.industry}
           tags={article.tags}
           sections={sections}
+        />
+        <ArticlesList
+          articles={articles}
+          currentSlug={a}
         />
       </div>
     </DrawerShell>

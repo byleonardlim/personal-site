@@ -12,10 +12,7 @@ import { defaultSchema } from 'hast-util-sanitize';
 import { Children, isValidElement, cloneElement } from 'react';
 import type { ReactNode, ReactElement } from 'react';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
 
-
-const SectionNav = dynamic(() => import('./section-nav'), { ssr: false });
 import { Tags } from './tag';
 import type { Components } from 'react-markdown';
 import type { Section } from '@/lib/markdown';
@@ -376,7 +373,7 @@ export function ArticleContent({ title, readingTime, tags, sections }: ArticleCo
 
   return (
     <div className="relative">
-      <SectionNav sections={sections} />
+      
       <article className="p-2 lg:p-0 prose leading-normal">
         <section className="h-dvh pb-16 flex flex-col justify-center max-w-5xl md:max-w-3xl mx-auto">
           <span className="block mb-4 text-xs text-neutral-600 dark:text-neutral-400 uppercase">{readingTime}</span>
