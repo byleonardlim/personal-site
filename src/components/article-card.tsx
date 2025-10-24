@@ -22,23 +22,31 @@ export default function ArticleCard({
   tags,
   featured,
 }: ArticleCardProps) {
+  const metaItems = [
+    featured ? 'Featured' : null,
+    industry,
+    year,
+    readingTime,
+  ].filter(Boolean) as string[];
   return (
     <Link
       href={`/?a=${slug}`}
       scroll={false}
       className="group block overflow-hidden transition-all duration-300"
     >
-      <h3 className="underline text-md text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">
+      <h3 className="underline text-lg text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">
         {title}
       </h3>
-      <div className="mb-2 flex flex-wrap space-x-4 lg:flex-row text-xs text-gray-500 dark:text-gray-400 uppercase">
-        {featured && (
-          <span className='text-green-600 dark:text-green-400 block lg:inline'>Featured</span>
-        )}
-        <span className='block lg:inline'>{industry}</span>
-        <span className='block lg:inline'>{year}</span>
-        <span className='block lg:inline'>{readingTime}</span>
-      </div>
+      <ul className="mb-2 flex flex-wrap gap-x-4 text-xs text-gray-500 dark:text-gray-400 uppercase">
+        {metaItems.map((text, idx) => (
+          <li
+            key={idx}
+            className={text === 'Featured' ? 'text-green-600 dark:text-green-400' : ''}
+          >
+            {text}
+          </li>
+        ))}
+      </ul>
       <Tags tags={tags} />
     </Link>
   );

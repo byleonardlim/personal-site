@@ -4,7 +4,7 @@ import { getArticleContent } from '@/lib/articles';
 import ArticleCard from '@/components/article-card';
 import type { Article } from '@/types/articles';
 import { experienceData } from '@/lib/experience';
-import { ExperienceList } from '@/components/experience-list';
+import { ExperienceCard } from '@/components/experience-card';
 import Section from '@/components/section';
 import { aboutContent } from '@/lib/about';
 import FloatingBar from '@/components/floating-bar';
@@ -27,19 +27,7 @@ export default async function Home() {
   // Sort articles with featured ones first
   articles.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
-  // Sort experiences: 'Present' first, then by endDate desc
-  const sortedExperiences = [...experienceData].sort((a, b) => {
-    if (a.endDate === 'Present' && b.endDate === 'Present') {
-      const startA = new Date(a.startDate);
-      const startB = new Date(b.startDate);
-      return startB.getTime() - startA.getTime();
-    }
-    if (a.endDate === 'Present') return -1;
-    if (b.endDate === 'Present') return 1;
-    const dateA = new Date(a.endDate);
-    const dateB = new Date(b.endDate);
-    return dateB.getTime() - dateA.getTime();
-  });
+  
 
   return (
     <div className="max-w-screen mx-auto px-2 text-sm">
@@ -70,7 +58,29 @@ export default async function Home() {
       <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
           Experiences
         </h2>
-        <ExperienceList experiences={sortedExperiences} />
+        <div className="space-y-8">
+          {experienceData
+            .sort((a, b) => {
+              // Place 'Present' at the top
+              if (a.endDate === 'Present' && b.endDate === 'Present') {
+                const startA = new Date(a.startDate);
+                const startB = new Date(b.startDate);
+                return startB.getTime() - startA.getTime();
+              }
+              if (a.endDate === 'Present') return -1;
+              if (b.endDate === 'Present') return 1;
+              
+              // Convert dates to YYYY-MM format for comparison
+              const dateA = new Date(a.endDate);
+              const dateB = new Date(b.endDate);
+              return dateB.getTime() - dateA.getTime();
+            })
+            .map((experience, index) => (
+              <div key={index} className="transition-opacity duration-300">
+                <ExperienceCard experience={experience} />
+              </div>
+            ))}
+        </div>
       </Section>
 
       {/* Connect Section */}
