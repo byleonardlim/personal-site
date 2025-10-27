@@ -8,6 +8,8 @@ import { ExperienceCard } from '@/components/experience-card';
 import Section from '@/components/section';
 import { aboutContent } from '@/lib/about';
 import FloatingBar from '@/components/floating-bar';
+import { productsData } from '@/lib/products';
+import ProductCard from '@/components/product-card';
 
 export async function generateMetadata({ searchParams }: { searchParams: Promise<{ a?: string }> }): Promise<Metadata> {
   const { a } = await searchParams;
@@ -30,17 +32,17 @@ export default async function Home() {
   
 
   return (
-    <div className="max-w-screen mx-auto px-2 text-sm">
+    <div className="w-screen px-2 text-sm">
       {/* About Section */}
-      <Section className="max-w-6xl mx-auto pb-16 min-h-[80vh] flex items-center justify-center">
-        <div className="mb-4 text-md lg:text-lg">
+      <Section className="w-full pb-16 min-h-[80vh] flex items-center justify-center">
+        <div className="max-w-[73ch] mb-4 text-md lg:text-lg">
           <p className="text-muted-foreground max-w-full">{aboutContent.bio}</p>
         </div>
       </Section>
-
+      <div className="w-full lg:grid lg:grid-cols-2 lg:gap-12">
       {/* Articles Section */}
-      <Section className="max-w-6xl mx-auto">
-      <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
+      <Section className="w-full">
+        <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
           Articles
         </h2>
         <div className="space-y-8">
@@ -53,9 +55,22 @@ export default async function Home() {
         </div>
       </Section>
 
+      {/* Products Section */}
+      <Section className="w-full">
+        <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
+          Products
+        </h2>
+        <div className="space-y-8">
+          {productsData.map((product) => (
+            <ProductCard key={product.slug} {...product} />
+          ))}
+        </div>
+      </Section>
+      </div>
+
       {/* Experience Section */}
-      <Section className="max-w-6xl mx-auto">
-      <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
+      <Section className="w-full">
+        <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
           Experiences
         </h2>
         <div className="space-y-8">
@@ -84,7 +99,7 @@ export default async function Home() {
       </Section>
 
       {/* Connect Section */}
-      <Section className="max-w-6xl mx-auto">
+      <Section className="w-full">
         <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300"> 
           Connect
         </h2>

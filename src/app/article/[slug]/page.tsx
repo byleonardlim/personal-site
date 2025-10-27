@@ -51,7 +51,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const sections = parseMarkdownSections(article.content);
 
   return (
-    <div className="max-w-5xl mx-auto min-h-screen px-2">    
+    <div className="w-screen min-h-screen px-2">    
       <ArticleContent
         title={article.title}
         readingTime={article.readingTime}

@@ -95,11 +95,11 @@ export default function FloatingBar() {
     <div className="fixed top-4 left-0 right-0 z-[70]" data-drawer-exempt>
       <div
         ref={containerRef}
-        className={`mx-auto flex items-center justify-between px-4 ${drawerOpen ? "lg:max-w-[90vw] lg:px-0" : "lg:max-w-6xl"}`}
+        className="w-screen flex items-center justify-between px-4"
       >
         <Link
           href="/"
-          className="px-2 py-1 text-sm tracking-widest text-neutral-900 dark:text-neutral-100 hover:text-neutral-700 dark:hover:text-neutral-300 hover:cursor-pointer transition-colors"
+          className="text-sm tracking-widest text-neutral-900 dark:text-neutral-100 hover:text-neutral-700 dark:hover:text-neutral-300 hover:cursor-pointer transition-colors"
           aria-label="Home"
         >
           BYLEONARDLIM

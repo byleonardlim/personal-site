@@ -23,6 +23,7 @@ export default function DrawerShell({
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const reducedMotionRef = useRef<boolean>(false);
   const closingRef = useRef<boolean>(false);
+  const widthRef = useRef<number>(0);
 
   // Touch swipe-to-close state
   const startXRef = useRef<number | null>(null);
@@ -44,12 +45,16 @@ export default function DrawerShell({
       navigateHome();
       return;
     }
+    if (tlRef.current) {
+      tlRef.current.kill();
+      tlRef.current = null;
+    }
     if (backdropRef.current) (backdropRef.current as HTMLElement).style.pointerEvents = 'none';
     if (panelRef.current) (panelRef.current as HTMLElement).style.pointerEvents = 'none';
-    if (panelRef.current) panelRef.current.style.transform = '';
+    // Do not clear inline transform abruptly; GSAP will read current value and tween from it
     const tl = gsap.timeline({ defaults: { duration: 0.2 } });
     tl.to(backdropRef.current, { opacity: 0, ease: 'power1.out' }, 0);
-    tl.to(panelRef.current, { xPercent: 100, ease: 'power2.in' }, 0);
+    tl.to(panelRef.current, { x: widthRef.current, ease: 'power2.in' }, 0);
     tl.eventCallback('onComplete', () => {
       closingRef.current = false;
       navigateHome();
@@ -143,31 +148,33 @@ export default function DrawerShell({
   // GSAP animations
   useLayoutEffect(() => {
     reducedMotionRef.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!panelRef.current || !backdropRef.current) return;
+    const panelEl = panelRef.current;
+    const backdropEl = backdropRef.current;
+    if (!panelEl || !backdropEl) return;
+    // Measure panel width for pixel-based animations
+    widthRef.current = panelEl.offsetWidth || 0;
     if (reducedMotionRef.current) {
-      backdropRef.current.style.opacity = '0.3';
-      panelRef.current.style.transform = 'translateX(0)';
+      backdropEl.style.opacity = '0.3';
+      panelEl.style.transform = 'translateX(0)';
       return;
     }
     // Clear any inline transform before GSAP controls it
-    panelRef.current.style.transform = '';
-    panelRef.current.style.willChange = 'transform';
-    backdropRef.current.style.willChange = 'opacity';
+    panelEl.style.transform = '';
+    panelEl.style.willChange = 'transform';
+    backdropEl.style.willChange = 'opacity';
     const tl = gsap.timeline({ defaults: { duration: 0.3, ease: 'power2.out' } });
-    tl.set(panelRef.current, { xPercent: 100 });
-    tl.set(backdropRef.current, { opacity: 0 });
-    tl.to(backdropRef.current, { opacity: 0.3 }, 0);
-    tl.to(panelRef.current, { xPercent: 0 }, 0);
+    tl.set(panelEl, { x: widthRef.current });
+    tl.set(backdropEl, { opacity: 0 });
+    tl.to(backdropEl, { opacity: 0.3 }, 0);
+    tl.to(panelEl, { x: 0 }, 0);
     tlRef.current = tl;
-    const panelEl = panelRef.current;
-    const backdropEl = backdropRef.current;
     return () => {
       if (tlRef.current) {
         tlRef.current.kill();
         tlRef.current = null;
       }
-      if (panelEl) panelEl.style.willChange = '';
-      if (backdropEl) backdropEl.style.willChange = '';
+      panelEl.style.willChange = '';
+      backdropEl.style.willChange = '';
     };
   }, []);
 
@@ -193,29 +200,37 @@ export default function DrawerShell({
           return;
         }
         closingRef.current = true;
+        if (tlRef.current) {
+          tlRef.current.kill();
+          tlRef.current = null;
+        }
         if (backdropRef.current) (backdropRef.current as HTMLElement).style.pointerEvents = 'none';
         if (panelRef.current) (panelRef.current as HTMLElement).style.pointerEvents = 'none';
         const tl = gsap.timeline({ defaults: { duration: 0.2 } });
         tl.to(backdropRef.current, { opacity: 0, ease: 'power1.out' }, 0);
-        tl.to(panelRef.current, { xPercent: 100, ease: 'power2.in' }, 0);
+        tl.to(panelRef.current, { x: widthRef.current, ease: 'power2.in' }, 0);
         await tl;
+        setDragging(false);
+        startXRef.current = null;
         navigateHome();
       })();
     } else {
       (async () => {
         if (reducedMotionRef.current) {
           setDragX(0);
+          setDragging(false);
+          startXRef.current = null;
           return;
         }
         if (panelRef.current) {
-          await gsap.to(panelRef.current, { x: 0, xPercent: 0, duration: 0.2, ease: 'power2.out' });
+          await gsap.to(panelRef.current, { x: 0, duration: 0.2, ease: 'power2.out' });
         }
         setDragX(0);
-        if (tlRef.current) tlRef.current.play();
+        setDragging(false);
+        startXRef.current = null;
+        // No need to resume open timeline; we're already at x=0
       })();
     }
-    setDragging(false);
-    startXRef.current = null;
   };
 
   return (
@@ -224,8 +239,8 @@ export default function DrawerShell({
         ref={backdropRef}
         aria-label="Close"
         onClick={close}
-        className={`fixed inset-0 z-50 bg-black outline-none`}
-        style={{ opacity: 0 }}
+        className={`fixed inset-0 z-50 bg-black/0 outline-none backdrop-blur-sm`}
+        style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' } as React.CSSProperties}
       />
 
       <div
@@ -234,7 +249,7 @@ export default function DrawerShell({
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
-        className={`fixed right-0 top-0 z-[60] h-full w-full max-w-full lg:max-w-[50vw] bg-white dark:bg-neutral-900 shadow-xl overflow-y-auto outline-none`}
+        className={`fixed right-0 top-0 z-[60] h-full w-screen max-w-[80vw] bg-white dark:bg-neutral-900 shadow-xl overflow-y-auto outline-none`}
         style={dragging && dragX > 0 ? { transform: `translateX(${dragX}px)` } : undefined}
       >
         <h2 id={titleId} className="sr-only">{titleText}</h2>

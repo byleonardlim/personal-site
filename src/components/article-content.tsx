@@ -374,8 +374,8 @@ export function ArticleContent({ title, readingTime, tags, sections }: ArticleCo
   return (
     <div className="relative">
       
-      <article className="p-2 lg:p-0 prose leading-normal">
-        <section className="h-dvh pb-16 flex flex-col justify-center max-w-5xl md:max-w-3xl mx-auto">
+      <article className="p-2 lg:p-0 prose max-w-none leading-normal">
+        <section className="h-dvh pb-16 flex flex-col justify-center max-w-[73ch] mx-auto">
           <span className="block mb-4 text-xs text-neutral-600 dark:text-neutral-400 uppercase">{readingTime}</span>
           <h1 className="text-2xl lg:text-3xl mb-4">{title}</h1>
           <div className="space-y-2">
@@ -385,7 +385,7 @@ export function ArticleContent({ title, readingTime, tags, sections }: ArticleCo
           </div>
         </section>
         {sections.map((section) => (
-          <section key={section.id} id={section.id} className="mb-32 max-w-5xl md:max-w-3xl mx-auto">
+          <section key={section.id} id={section.id} className="mb-32 max-w-[73ch] mx-auto">
             <h2 className="text-md font-medium mb-4 uppercase text-green-700 dark:text-green-300">{section.title}</h2>
             <div className="space-y-8">
               <ReactMarkdown

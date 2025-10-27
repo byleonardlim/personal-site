@@ -10,7 +10,7 @@ interface ArticlesListProps {
 
 export function ArticlesList({ articles, currentSlug }: ArticlesListProps) {
   return (
-    <div className="mt-16 lg:mb-32 border-t border-neutral-200 dark:border-neutral-700 px-2 py-4 max-w-5xl md:max-w-3xl mx-auto">
+    <div className="mt-16 lg:mb-32 border-t border-neutral-200 dark:border-neutral-700 px-2 py-4 w-full">
       <h2 className="text-md font-medium mb-4 uppercase text-neutral-700 dark:text-neutral-300">More Selected Work</h2>
       <div className="flex flex-col space-y-4">
         {articles.map((study) => (

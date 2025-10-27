@@ -16,7 +16,7 @@ export default async function DrawerSlot({ searchParams }: { searchParams: Promi
 
   return (
     <DrawerShell titleId="drawer-title" titleText="Article" closeHref="/">
-      <div className="max-w-5xl mx-auto">
+      <div className="w-full">
         <ArticleContent
           title={article.title}
           readingTime={article.readingTime}
