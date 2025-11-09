@@ -249,7 +249,7 @@ export default function DrawerShell({
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
-        className={`fixed right-0 top-0 z-[60] h-full w-screen max-w-[80vw] bg-white dark:bg-neutral-900 shadow-xl overflow-y-auto outline-none`}
+        className={`fixed right-0 top-0 z-[60] h-full w-screen lg:max-w-[80vw] bg-white dark:bg-neutral-900 shadow-xl overflow-y-auto outline-none`}
         style={dragging && dragX > 0 ? { transform: `translateX(${dragX}px)` } : undefined}
       >
         <h2 id={titleId} className="sr-only">{titleText}</h2>

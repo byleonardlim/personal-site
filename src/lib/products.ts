@@ -2,30 +2,21 @@ import { Product } from '@/types/products';
 
 export const productsData: Product[] = [
   {
-    slug: 'insight-dashboard',
-    title: 'Insight Dashboard',
+    slug: 'styllio-privacy-first-image-styling',
+    title: 'Styllio - Privacy First Image Styling',
     year: '2025',
-    category: 'Analytics',
+    category: 'Entertainment',
+    status: 'Shipped',
+    url: 'https://styllio.co',
+    description: 'A causal image styling platform that puts privacy first. No data collection, no tracking, and no data retention. A product that is built entirely with AI.'
+  },
+  {
+    slug: 'automation-for-everyone',
+    title: 'Nomos - Automation for Everyone',
+    year: '2026',
+    category: 'Tool',
     status: 'Building',
-    url: 'https://example.com/insight-dashboard',
-    description: 'A modular analytics dashboard exploring decision support patterns and clean data visualizations.'
-  },
-  {
-    slug: 'ai-research-notes',
-    title: 'AI Research Notes',
-    year: '2024',
-    category: 'Knowledge',
-    status: 'Shipped',
-    url: 'https://example.com/ai-research-notes',
-    description: 'Lightweight note system for testing LLM prompts, RAG setups, and UX flows.'
-  },
-  {
-    slug: 'prototyper',
-    title: 'Prototyper',
-    year: '2023',
-    category: 'Tooling',
-    status: 'Shipped',
-    url: 'https://example.com/prototyper',
-    description: 'A starter toolkit to spin up design experiments quickly with sensible defaults.'
+    url: 'https://nomos.ai',
+    description: 'Nomos, making everyday automation easy for everyone. Visually driven workflows for automating your daily tasks.'
   }
 ];
