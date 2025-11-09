@@ -58,7 +58,7 @@ export default async function Home() {
       {/* Products Section */}
       <Section className="w-full">
         <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
-          Products
+          Products (WIP)
         </h2>
         <div className="space-y-8">
           {productsData.map((product) => (

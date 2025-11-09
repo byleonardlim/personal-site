@@ -154,7 +154,7 @@ export default function DrawerShell({
     // Measure panel width for pixel-based animations
     widthRef.current = panelEl.offsetWidth || 0;
     if (reducedMotionRef.current) {
-      backdropEl.style.opacity = '0.3';
+      backdropEl.style.opacity = '1';
       panelEl.style.transform = 'translateX(0)';
       return;
     }
@@ -165,7 +165,7 @@ export default function DrawerShell({
     const tl = gsap.timeline({ defaults: { duration: 0.3, ease: 'power2.out' } });
     tl.set(panelEl, { x: widthRef.current });
     tl.set(backdropEl, { opacity: 0 });
-    tl.to(backdropEl, { opacity: 0.3 }, 0);
+    tl.to(backdropEl, { opacity: 1 }, 0);
     tl.to(panelEl, { x: 0 }, 0);
     tlRef.current = tl;
     return () => {
@@ -239,7 +239,7 @@ export default function DrawerShell({
         ref={backdropRef}
         aria-label="Close"
         onClick={close}
-        className={`fixed inset-0 z-50 bg-black/0 outline-none backdrop-blur-sm`}
+        className={`fixed inset-0 z-50 bg-white/30 dark:bg-black/50 outline-none backdrop-blur-sm`}
         style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' } as React.CSSProperties}
       />
 
