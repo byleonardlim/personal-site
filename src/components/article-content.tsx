@@ -244,14 +244,14 @@ const ImgRenderer = ({ src, srcSet }: React.ImgHTMLAttributes<HTMLImageElement>)
     }
 
     return (
-      <figure className="relative w-[calc(100vw-1rem)] lg:w-[calc(80vw-2rem)] -ml-[calc((100vw-1rem-73ch)/2+0.5rem)] lg:-ml-[calc((80vw-2rem-73ch)/2+1rem)] mb-8 p-2 lg:p-4 bg-gradient-to-t from-transparent to-neutral-100 dark:to-neutral-800 pointer-events-none">
+      <figure className="relative w-full mb-8 -mx-2 lg:mx-0 lg:w-[calc(100%+8rem)] lg:-ml-16 p-2 lg:p-4 bg-gradient-to-t from-transparent to-neutral-100 dark:to-neutral-800 pointer-events-none">
         <Image
           src={normalizedSrc}
           alt="Article content"
           className="w-full rounded-xs shadow-lg"
           width={1200}
           height={630}
-          sizes="(min-width: 1024px) calc(80vw - 2rem), calc(100vw - 1rem)"
+          sizes="(min-width: 1024px) 80vw, 100vw"
         />
       </figure>
     );
