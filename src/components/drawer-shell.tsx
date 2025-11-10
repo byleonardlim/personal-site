@@ -180,6 +180,7 @@ export default function DrawerShell({
 
   // Touch handlers for swipe-to-close
   const onTouchStart = (e: React.TouchEvent) => {
+    if (closingRef.current) return;
     startXRef.current = e.touches[0].clientX;
     setDragging(true);
     if (tlRef.current && !reducedMotionRef.current) {
@@ -187,33 +188,40 @@ export default function DrawerShell({
     }
   };
   const onTouchMove = (e: React.TouchEvent) => {
-    if (startXRef.current == null) return;
+    if (closingRef.current || startXRef.current == null) return;
     const dx = e.touches[0].clientX - startXRef.current;
     if (dx > 0) setDragX(dx > 480 ? 480 : dx);
   };
   const onTouchEnd = () => {
     const threshold = 80;
     if (dragX > threshold) {
-      (async () => {
-        if (reducedMotionRef.current) {
-          navigateHome();
-          return;
-        }
-        closingRef.current = true;
-        if (tlRef.current) {
-          tlRef.current.kill();
-          tlRef.current = null;
-        }
-        if (backdropRef.current) (backdropRef.current as HTMLElement).style.pointerEvents = 'none';
-        if (panelRef.current) (panelRef.current as HTMLElement).style.pointerEvents = 'none';
-        const tl = gsap.timeline({ defaults: { duration: 0.2 } });
-        tl.to(backdropRef.current, { opacity: 0, ease: 'power1.out' }, 0);
-        tl.to(panelRef.current, { x: widthRef.current, ease: 'power2.in' }, 0);
-        await tl;
+      if (reducedMotionRef.current) {
         setDragging(false);
         startXRef.current = null;
         navigateHome();
-      })();
+        return;
+      }
+      if (closingRef.current) return;
+      closingRef.current = true;
+      if (tlRef.current) {
+        tlRef.current.kill();
+        tlRef.current = null;
+      }
+      if (backdropRef.current) (backdropRef.current as HTMLElement).style.pointerEvents = 'none';
+      if (panelRef.current) (panelRef.current as HTMLElement).style.pointerEvents = 'none';
+      const currentDragX = dragX;
+      setDragging(false);
+      if (panelRef.current) {
+        gsap.set(panelRef.current, { x: currentDragX });
+      }
+      const tl = gsap.timeline({ defaults: { duration: 0.2 } });
+      tl.to(backdropRef.current, { opacity: 0, ease: 'power1.out' }, 0);
+      tl.to(panelRef.current, { x: widthRef.current, ease: 'power2.in' }, 0);
+      tl.eventCallback('onComplete', () => {
+        startXRef.current = null;
+        closingRef.current = false;
+        navigateHome();
+      });
     } else {
       (async () => {
         if (reducedMotionRef.current) {

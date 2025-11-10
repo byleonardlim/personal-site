@@ -4,5 +4,6 @@
   "less.lint.unknownAtRules": "ignore",
   "files.associations": {
     "*.css": "postcss"
-  }
+  },
+  "kiroAgent.configureMCP": "Disabled"
 }
