@@ -1,8 +1,6 @@
 ---
 title: "From Audit Findings to Management Letters in Minutes with AI"
 year: "2025"
-industry: "Enterprise"
-role: "IC Designer"
 tags: ["AI/ML", "GenAI", "Product Design", "UX"]
 featured: true
 ---

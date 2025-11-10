@@ -4,12 +4,10 @@ export interface Article {
   readingTime: string;
   title: string;
   year: string;
-  industry: string;
   duration: string;
   tags: string[];
   featured: boolean;
   description?: string;
   date?: string;
-  role?: string;
   coverImage?: string;
 }

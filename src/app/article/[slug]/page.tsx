@@ -55,7 +55,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <ArticleContent
         title={article.title}
         readingTime={article.readingTime}
-        industry={article.industry}
         tags={article.tags}
         sections={sections}
       />

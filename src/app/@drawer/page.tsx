@@ -20,7 +20,6 @@ export default async function DrawerSlot({ searchParams }: { searchParams: Promi
         <ArticleContent
           title={article.title}
           readingTime={article.readingTime}
-          industry={article.industry}
           tags={article.tags}
           sections={sections}
         />

@@ -37,7 +37,7 @@ export default function ProductCard({ slug, title, year, category, status, url, 
             aria-disabled="true"
             className="text-gray-400 dark:text-gray-500 cursor-not-allowed"
           >
-            Visit Product
+            Product Link
           </span>
         ) : (
           <a
@@ -46,7 +46,7 @@ export default function ProductCard({ slug, title, year, category, status, url, 
             rel="noopener noreferrer"
             className="underline text-gray-800 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200"
           >
-            Visit Product
+            Product Link
           </a>
         )}
       </div>
