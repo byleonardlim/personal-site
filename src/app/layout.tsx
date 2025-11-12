@@ -10,13 +10,13 @@ const oxygenMono = Oxygen_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://byleonardlim.com"),
-  title: "Leonard Lim - Independent UX Design Consultant",
+  title: "Leonard Lim - Fractional Design Partnership",
   description:
-    "Independent UX Design Consultant based in Singapore with 10+ years of experience. specializing in zero-to-one product design for early-stage startups and design consultancy for businesses.",
+    "Fractional Design Leader in Singapore disrupting the user experience domain. Helping startups and lean organizations stay ahead of the market with artificial intelligence by transforming complex systems into simple, meaningful user experiences.",
   openGraph: {
-    title: "Leonard Lim - Independent UX Design Consultant",
+    title: "Leonard Lim - Fractional Design Partnership",
     description:
-      "Independent UX Design Consultant based in Singapore with 10+ years of experience.",
+      "Fractional Design Leader in Singapore disrupting the user experience domain. Helping startups and lean organizations stay ahead of the market with artificial intelligence by transforming complex systems into simple, meaningful user experiences.",
     url: "https://byleonardlim.com/",
     siteName: "byleonardlim",
     type: "website",
@@ -24,13 +24,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Leonard Lim - Independent UX Design Consultant",
+    title: "Leonard Lim - Fractional Design Partnership",
     description:
-      "Independent UX Design Consultant based in Singapore with 10+ years of experience.",
+      "Fractional Design Leader in Singapore disrupting the user experience domain. Helping startups and lean organizations stay ahead of the market with artificial intelligence by transforming complex systems into simple, meaningful user experiences.",
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
     apple: "/apple-touch-icon.png",
   },
   themeColor: [
