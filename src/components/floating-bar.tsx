@@ -5,13 +5,12 @@ import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import ThemeToggle from "@/components/theme-toggle";
-import { ArrowLeft, X } from "lucide-react";
+import { X } from "lucide-react";
 import { gsap } from "gsap";
 
 export default function FloatingBar() {
   const router = useRouter();
   const pathname = usePathname();
-  const showBack = pathname !== "/";
 
   const [elevated, setElevated] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
