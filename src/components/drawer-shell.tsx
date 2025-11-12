@@ -31,10 +31,6 @@ export default function DrawerShell({
   const [dragging, setDragging] = useState(false);
 
   const navigateHome = useCallback(() => {
-    if (typeof window !== 'undefined' && window.history.length > 1) {
-      router.back();
-      return;
-    }
     router.push(closeHref, { scroll: false });
   }, [router, closeHref]);
 

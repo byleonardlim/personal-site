@@ -18,7 +18,7 @@ export default function ProductCard({ slug, title, year, category, status, url, 
 
   return (
     <div className="group block overflow-hidden transition-all duration-300" data-slug={slug}>
-      <h3 className="underline text-lg text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">
+      <h3 className="text-lg text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">
         {title}
       </h3>
       <ul className="mb-2 flex flex-wrap gap-x-4 text-xs text-gray-500 dark:text-gray-400 uppercase">

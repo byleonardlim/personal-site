@@ -32,11 +32,11 @@ export default async function Home() {
   
 
   return (
-    <div className="w-screen px-2 text-sm">
+    <div className="px-2 lg:px-8 text-sm">
       {/* About Section */}
       <Section className="w-full pb-16 min-h-[80vh] flex items-center justify-center">
-        <div className="max-w-[73ch] mb-4 text-md lg:text-lg">
-          <p className="text-muted-foreground max-w-full">{aboutContent.bio}</p>
+        <div className="max-w-[73ch] mb-4 text-md lg:text-lg text-pretty">
+          <p className="text-muted-foreground">{aboutContent.bio}</p>
         </div>
       </Section>
       <div className="w-full lg:grid lg:grid-cols-2 lg:gap-12">

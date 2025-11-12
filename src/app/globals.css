@@ -15,8 +15,8 @@
 
 /* When .dark is present on <html>, swap variables for dark mode */
 html.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #1a1f1e;
+  --foreground: #e8f0ed;
 }
 
 html, body {

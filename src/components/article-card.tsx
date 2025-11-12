@@ -30,7 +30,7 @@ export default function ArticleCard({
     ? 'rounded-sm border border-green-200 dark:border-green-900 bg-green-50/60 dark:bg-green-950/40 p-4'
     : 'rounded-sm p-2 hover:bg-gray-50 dark:hover:bg-gray-900/20';
   const titleClasses = featured
-    ? 'underline underline-offset-4 text-2xl font-semibold text-gray-900 dark:text-white mb-8 group-hover:text-green-700 dark:group-hover:text-green-300 transition-colors duration-200'
+    ? 'underline underline-offset-4 text-lg lg:text-2xl font-semibold text-gray-900 dark:text-white mb-8 group-hover:text-green-700 dark:group-hover:text-green-300 transition-colors duration-200'
     : 'underline text-lg text-gray-900 dark:text-white mb-8 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200';
   return (
     <Link
