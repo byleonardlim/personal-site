@@ -35,7 +35,7 @@ export default async function Home() {
     <div className="px-2 lg:px-8 text-sm">
       {/* About Section */}
       <Section className="w-full pb-16 min-h-[80vh] flex items-center justify-center">
-        <div className="max-w-[73ch] mb-4 text-md lg:text-lg text-pretty">
+        <div className="max-w-[73ch] mb-4 text-md lg:text-2xl text-pretty">
           <p className="text-muted-foreground">{aboutContent.bio}</p>
         </div>
       </Section>
