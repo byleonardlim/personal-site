@@ -29,8 +29,11 @@ export const metadata: Metadata = {
       "Fractional Design Leader in Singapore disrupting the user experience domain. Helping startups and lean organizations stay ahead of the market with artificial intelligence by transforming complex systems into simple, meaningful user experiences.",
   },
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
 };
