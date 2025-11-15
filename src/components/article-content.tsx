@@ -244,7 +244,7 @@ const ImgRenderer = ({ src, srcSet }: React.ImgHTMLAttributes<HTMLImageElement>)
     }
 
     return (
-      <figure className="relative w-full mb-8 -mx-2 lg:mx-0 lg:w-[calc(100%+8rem)] lg:-ml-16 p-2 lg:p-4 bg-gradient-to-t from-transparent to-neutral-100 dark:to-neutral-800 pointer-events-none">
+      <figure className="relative w-full mb-8 -mx-2 lg:mx-0 lg:w-[calc(100%+16rem)] lg:-ml-16 p-2 lg:p-4 bg-gradient-to-t from-transparent to-neutral-100 dark:to-neutral-800 pointer-events-none">
         <Image
           src={normalizedSrc}
           alt="Article content"
@@ -293,7 +293,7 @@ const MarkdownComponents: Components = {
     }
 
     return (
-      <p {...props} className="prose-p">
+      <p {...props} className="prose-p text-pretty">
         {children}
       </p>
     );
