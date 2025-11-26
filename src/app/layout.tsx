@@ -75,10 +75,14 @@ export default function RootLayout({
       <body
         className={`${oxygenMono.variable}`}
       >
+        {/* Overtracking Pixel Code */}
+        <Script
+          src="https://cdn.overtracking.com/t/tn8ge3igett516ovg/"
+          strategy="afterInteractive"
+          defer
+        />
         {children}
         {drawer}
-        {/* Overtracking Pixel Code */}
-        <Script src="https://cdn.overtracking.com/t/tn8ge3igett516ovg/" />
       </body>
     </html>
   );
