@@ -3,7 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
+  --background: #FAFAFA;
   --foreground: #171717;
 }
 
@@ -15,14 +15,19 @@
 
 /* When .dark is present on <html>, swap variables for dark mode */
 html.dark {
-  --background: #1a1f1e;
-  --foreground: #e8f0ed;
+  --background: #111111;
+  --foreground: #EDEDED;
 }
 
 html, body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-oxygen-mono), monospace;
+}
+
+::selection {
+  background: var(--foreground);
+  color: var(--background);
 }
 
 /* Uppercase all headings globally */

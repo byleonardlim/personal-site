@@ -32,48 +32,53 @@ export default async function Home() {
   
 
   return (
-    <div className="px-2 lg:px-8 text-sm">
+    <div className="max-w-screen-xl mx-auto px-6 lg:px-12 text-base selection:bg-gray-200 dark:selection:bg-gray-800 pb-32">
       {/* About Section */}
-      <Section className="w-full pb-16 min-h-[80vh] flex items-center justify-center">
-        <div className="max-w-[73ch] mb-4 text-md lg:text-2xl text-pretty">
-          <p className="text-muted-foreground">{aboutContent.bio}</p>
-        </div>
-      </Section>
-      <div className="w-full lg:grid lg:grid-cols-2 lg:gap-12">
-      {/* Articles Section */}
-      <Section className="w-full">
-        <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
-          Articles
-        </h2>
-        <div className="space-y-8">
-          {articles.map((study: Article) => (
-            <ArticleCard
-              key={study.slug}
-              {...study}
-            />
-          ))}
+      <Section className="w-full min-h-[60vh] flex items-center justify-center py-24 lg:py-32">
+        <div className="max-w-3xl mb-4 text-lg lg:text-2xl text-pretty font-normal leading-relaxed">
+          <p className="text-gray-800 dark:text-gray-200">{aboutContent.bio}</p>
         </div>
       </Section>
 
-      {/* Products Section */}
-      <Section className="w-full">
-        <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
-          Products
-        </h2>
-        <div className="space-y-8">
-          {productsData.map((product) => (
-            <ProductCard key={product.slug} {...product} />
-          ))}
+      <div className="w-full lg:grid lg:grid-cols-12 lg:gap-16">
+        {/* Articles Section */}
+        <div className="lg:col-span-7">
+          <Section className="w-full">
+            <h2 className="w-fit text-sm font-semibold mb-8 uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              Articles
+            </h2>
+            <div className="space-y-8">
+              {articles.map((study: Article) => (
+                <ArticleCard
+                  key={study.slug}
+                  {...study}
+                />
+              ))}
+            </div>
+          </Section>
         </div>
-      </Section>
+
+        {/* Products Section */}
+        <div className="lg:col-span-5">
+          <Section className="w-full">
+            <h2 className="w-fit text-sm font-semibold mb-8 uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              Products
+            </h2>
+            <div className="space-y-8">
+              {productsData.map((product) => (
+                <ProductCard key={product.slug} {...product} />
+              ))}
+            </div>
+          </Section>
+        </div>
       </div>
 
       {/* Experience Section */}
-      <Section className="w-full">
-        <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300">
+      <Section className="w-full max-w-3xl">
+        <h2 className="w-fit text-sm font-semibold mb-8 uppercase tracking-wider text-gray-500 dark:text-gray-400">
           Experiences
         </h2>
-        <div className="space-y-8">
+        <div className="space-y-12">
           {experienceData
             .sort((a, b) => {
               // Place 'Present' at the top
@@ -100,25 +105,25 @@ export default async function Home() {
 
       {/* Connect Section */}
       <Section className="w-full">
-        <h2 className="w-fit text-md lg:text-lg font-medium mb-4 uppercase text-neutral-600 dark:text-neutral-300"> 
+        <h2 className="w-fit text-sm font-semibold mb-8 uppercase tracking-wider text-gray-500 dark:text-gray-400"> 
           Connect
         </h2>
-        <div className="space-y-2">
+        <div className="space-y-3 text-gray-600 dark:text-gray-300">
           <div className="flex items-center">
-            <Mail className="w-4 h-4 mr-2" />
-            <a href={`mailto:${aboutContent.email}`} className="underline text-gray-800 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">
+            <Mail className="w-4 h-4 mr-3 opacity-70" />
+            <a href={`mailto:${aboutContent.email}`} className="hover:text-black dark:hover:text-white transition-colors duration-200">
               { aboutContent.email }
             </a>
           </div>
           <div className="flex items-center">
-            <ExternalLink className="w-4 h-4 mr-2" />
-            <a href={aboutContent.linkedin} className="underline text-gray-800 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200">
+            <ExternalLink className="w-4 h-4 mr-3 opacity-70" />
+            <a href={aboutContent.linkedin} className="hover:text-black dark:hover:text-white transition-colors duration-200">
               LinkedIn
             </a>
           </div>
           <div className="flex items-center">
-            <MapPin className="w-4 h-4 mr-2" />
-            <span className="text-gray-800 dark:text-gray-200">
+            <MapPin className="w-4 h-4 mr-3 opacity-70" />
+            <span>
               { aboutContent.location }
             </span>
           </div>

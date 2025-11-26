@@ -11,6 +11,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images';
 import { defaultSchema } from 'hast-util-sanitize';
 import { Children, isValidElement, cloneElement } from 'react';
 import type { ReactNode, ReactElement } from 'react';
+import { Quote } from 'lucide-react';
 import Image from 'next/image';
 
 import { Tags } from './tag';
@@ -260,7 +261,7 @@ const AnchorRenderer = ({ href, children, ...props }: React.AnchorHTMLAttributes
   <a
     href={href}
     {...props}
-    className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline transition-colors"
+    className="text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300 underline decoration-gray-400 underline-offset-2 transition-colors"
   >
     {children}
   </a>
@@ -312,29 +313,48 @@ const MarkdownComponents: Components = {
     <h6 {...props} className="text-sm mb-2">{children}</h6>
   ),
   ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul {...props} className="grid gap-4 sm:grid-cols-2 mb-8 p-0 list-none">
-      {Children.map(children, (child) => {
-        if (isValidElement(child)) {
-          const element = child as ReactElement<{ className?: string }>;
-          const existing = (element.props?.className ?? '').toString().trim();
-          return cloneElement(element, {
-            className: `${existing} rounded-md border border-neutral-200/80 dark:border-neutral-800 bg-white/60 dark:bg-neutral-900/60 shadow-sm p-4 hover:shadow-md transition`.replace(/\s+/g, ' ').trim(),
-          });
-        }
-        return child;
-      })}
+    <ul {...props} className="list-none mb-8">
+      {children}
     </ul>
   ),
   ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol {...props} className="list-decimal pl-6 space-y-2 mb-8">
+    <ol {...props} className="list-decimal pl-4 space-y-2 mb-8 marker:text-gray-400 dark:marker:text-gray-500 marker:font-medium">
       {children}
     </ol>
   ),
-  li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
-    <li {...props}>
-      {children}
-    </li>
-  ),
+  li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement>) => {
+    const kids = Children.toArray(children).filter(child => !isWhitespaceText(child));
+    const first = kids[0];
+
+    // Check if the first child is a strong/bold tag (indicates a stat/metric)
+    // ReactMarkdown might pass 'strong' as a React element type 'strong'
+    const isStat = isValidElement(first) && (first.type === 'strong' || first.type === 'b' || (first.type as any)?.name === 'strong');
+
+    if (isStat) {
+      const statContent = (first as ReactElement<{ children: ReactNode }>).props.children;
+      const description = kids.slice(1);
+      
+      return (
+        <li {...props} className="block p-6 mb-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-800">
+          <div className="flex flex-col">
+            <span className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-2 block">
+              {statContent}
+            </span>
+            <div className="text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
+              {description}
+            </div>
+          </div>
+        </li>
+      );
+    }
+
+    return (
+      <li {...props} className="group flex items-start mb-2">
+        <span className="mr-3 mt-2.5 w-1.5 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full shrink-0 group-hover:bg-gray-900 dark:group-hover:bg-gray-100 transition-colors" />
+        <div className="flex-1 leading-relaxed text-gray-700 dark:text-gray-300">{children}</div>
+      </li>
+    );
+  },
   a: AnchorRenderer,
   strong: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <strong className="font-bold" {...props}>
@@ -347,9 +367,12 @@ const MarkdownComponents: Components = {
     </em>
   ),
   blockquote: ({ children }) => (
-    <blockquote className="p-4 font-medium text-neutral-600 dark:text-neutral-400 text-lg bg-gradient-to-t from-transparent to-neutral-100 dark:to-neutral-800">
-      {children}
-    </blockquote>
+    <div className="relative my-12 p-8 bg-gray-50 dark:bg-gray-900/30 rounded-2xl border border-gray-100 dark:border-gray-800">
+      <Quote className="absolute -top-4 -left-2 w-8 h-8 text-gray-300 dark:text-gray-700 bg-white dark:bg-black rounded-full p-1" />
+      <blockquote className="relative italic text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
+        {children}
+      </blockquote>
+    </div>
   ),
   code: ({ inline, className, children, ...props }: { inline?: boolean; className?: string } & React.HTMLAttributes<HTMLElement>) => {
     if (inline) {
@@ -374,9 +397,9 @@ export function ArticleContent({ title, readingTime, tags, sections }: ArticleCo
     <div className="relative">
       
       <article className="p-2 lg:p-0 prose max-w-none leading-normal">
-        <section className="h-dvh pb-16 flex flex-col justify-center max-w-[73ch] mx-auto">
-          <span className="block mb-4 text-xs text-neutral-600 dark:text-neutral-400 uppercase">{readingTime}</span>
-          <h1 className="text-2xl lg:text-3xl mb-4">{title}</h1>
+        <section className="h-[80vh] pb-16 flex flex-col justify-center max-w-3xl mx-auto">
+          <span className="block mb-4 text-xs text-neutral-600 dark:text-neutral-400 uppercase tracking-widest">{readingTime}</span>
+          <h1 className="text-3xl lg:text-4xl mb-6 font-medium leading-tight">{title}</h1>
           <div className="space-y-2">
             {tags.length > 0 && (
               <Tags tags={tags} />
@@ -384,9 +407,9 @@ export function ArticleContent({ title, readingTime, tags, sections }: ArticleCo
           </div>
         </section>
         {sections.map((section) => (
-          <section key={section.id} id={section.id} className="mb-32 max-w-[73ch] mx-auto">
-            <h2 className="text-md font-medium mb-4 uppercase text-green-700 dark:text-green-300">{section.title}</h2>
-            <div className="space-y-8">
+          <section key={section.id} id={section.id} className="mb-32 max-w-3xl mx-auto">
+            <h2 className="text-sm font-semibold mb-8 uppercase tracking-wider text-gray-500 dark:text-gray-400">{section.title}</h2>
+            <div className="space-y-8 text-lg text-gray-800 dark:text-gray-200">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[

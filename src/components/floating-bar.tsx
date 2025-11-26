@@ -69,7 +69,7 @@ export default function FloatingBar() {
           BYLEONARDLIM
         </Link>
         <div
-          className={`flex items-center gap-2 rounded-sm border border-neutral-300/80 dark:border-neutral-700/70 bg-white/80 dark:bg-neutral-900/80 backdrop-blur px-2 py-1 transition-all duration-300 ease-out ${elevated || drawerOpen ? "shadow-lg" : "shadow-none"}`}
+          className={`flex items-center gap-2 rounded-sm border border-gray-200 dark:border-gray-800 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm px-2 py-1 transition-all duration-300 ease-out ${elevated || drawerOpen ? "shadow-sm" : "shadow-none"}`}
         >
           {drawerOpen && (
             <button
