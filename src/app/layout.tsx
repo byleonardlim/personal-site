@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Oxygen_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -42,8 +43,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: light)", color: "#e1e2e7" },
+    { media: "(prefers-color-scheme: dark)", color: "#1a1b26" },
   ],
 };
 
@@ -76,6 +77,8 @@ export default function RootLayout({
       >
         {children}
         {drawer}
+        {/* Overtracking Pixel Code */}
+        <Script src="https://cdn.overtracking.com/t/tn8ge3igett516ovg/" />
       </body>
     </html>
   );

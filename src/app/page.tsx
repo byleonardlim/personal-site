@@ -34,19 +34,34 @@ export default async function Home() {
   return (
     <div className="max-w-screen-xl mx-auto px-6 lg:px-12 text-base selection:bg-gray-200 dark:selection:bg-gray-800 pb-32">
       {/* About Section */}
-      <Section className="w-full min-h-[60vh] flex items-center justify-center py-24 lg:py-32">
-        <div className="max-w-3xl mb-4 text-lg lg:text-2xl text-pretty font-normal leading-relaxed">
-          <p className="text-gray-800 dark:text-gray-200">{aboutContent.bio}</p>
+      <Section
+        title="Leonard Lim"
+        subtitle={
+          <>
+            <span>Fractional Product Design</span>
+            <span className="block lg:inline mt-1 lg:mt-0">{aboutContent.location}</span>
+          </>
+        }
+        className="min-h-[80vh] mt-[2rem] lg:mt-0"
+        contentClassName="justify-center lg:pl-16 max-w-4xl"
+      >
+        <h1 className="text-3xl lg:text-5xl font-medium leading-tight text-gray-900 dark:text-gray-100 mb-8">
+          Disrupting the user experience domain with clarity and intent.
+        </h1>
+        <div className="max-w-2xl text-lg lg:text-xl text-gray-600 dark:text-gray-400 leading-relaxed space-y-6">
+          <p>
+            I work with early-stage companies and lean organizations to shape how people experience and building their products. Through fractional design leadership, I help teams find focus, align around users, and design with purpose.
+          </p>
+          <p>
+            By staying ahead of the market with artificial intelligence, I guide quiet shifts that create lasting impact, turning complex systems into experiences that simply work.
+          </p>
         </div>
       </Section>
 
       <div className="w-full lg:grid lg:grid-cols-12 lg:gap-16">
         {/* Articles Section */}
         <div className="lg:col-span-7">
-          <Section className="w-full">
-            <h2 className="w-fit text-sm font-semibold mb-8 uppercase tracking-wider text-gray-500 dark:text-gray-400">
-              Articles
-            </h2>
+          <Section title="Selected Works" subtitle="Articles">
             <div className="space-y-8">
               {articles.map((study: Article) => (
                 <ArticleCard
@@ -60,10 +75,7 @@ export default async function Home() {
 
         {/* Products Section */}
         <div className="lg:col-span-5">
-          <Section className="w-full">
-            <h2 className="w-fit text-sm font-semibold mb-8 uppercase tracking-wider text-gray-500 dark:text-gray-400">
-              Products
-            </h2>
+          <Section title="Products" subtitle="Building">
             <div className="space-y-8">
               {productsData.map((product) => (
                 <ProductCard key={product.slug} {...product} />
@@ -74,11 +86,8 @@ export default async function Home() {
       </div>
 
       {/* Experience Section */}
-      <Section className="w-full max-w-3xl">
-        <h2 className="w-fit text-sm font-semibold mb-8 uppercase tracking-wider text-gray-500 dark:text-gray-400">
-          Experiences
-        </h2>
-        <div className="space-y-12">
+      <Section title="Experience" subtitle="Career">
+        <div className="max-w-3xl space-y-8">
           {experienceData
             .sort((a, b) => {
               // Place 'Present' at the top
@@ -104,10 +113,7 @@ export default async function Home() {
       </Section>
 
       {/* Connect Section */}
-      <Section className="w-full">
-        <h2 className="w-fit text-sm font-semibold mb-8 uppercase tracking-wider text-gray-500 dark:text-gray-400"> 
-          Connect
-        </h2>
+      <Section title="Connect" subtitle="Socials">
         <div className="space-y-3 text-gray-600 dark:text-gray-300">
           <div className="flex items-center">
             <Mail className="w-4 h-4 mr-3 opacity-70" />

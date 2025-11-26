@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Moon, Sun, Laptop } from "lucide-react";
+import { gsap } from "gsap";
 
 // Theme values we support
 type ThemeChoice = "light" | "dark" | "system";
@@ -37,6 +38,7 @@ function applyTheme(choice: ThemeChoice, withTransition = false) {
 export default function ThemeToggle({ className = "" }: { className?: string }) {
   // Initialize to 'system' on both server and client to keep SSR/CSR markup identical
   const [choice, setChoice] = useState<ThemeChoice>("system");
+  const iconRef = useRef<HTMLDivElement>(null);
 
   // Apply immediately on mount to avoid mismatch
   useEffect(() => {
@@ -64,6 +66,16 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
     } else {
       next = choice === "dark" ? "light" : "dark";
     }
+
+    // Animate rotation
+    if (iconRef.current) {
+      gsap.to(iconRef.current, {
+        rotation: "+=180",
+        duration: 0.5,
+        ease: "back.out(1.7)",
+      });
+    }
+
     setChoice(next);
     localStorage.setItem("theme", next);
     applyTheme(next, true);
@@ -80,13 +92,15 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
       title="Toggle theme"
       aria-label="Toggle theme"
     >
-      {choice === "system" ? (
-        <Laptop className="w-4 h-4" />
-      ) : choice === "dark" ? (
-        <Moon className="w-4 h-4" />
-      ) : (
-        <Sun className="w-4 h-4" />
-      )}
+      <div ref={iconRef} className="flex items-center justify-center origin-center">
+        {choice === "system" ? (
+          <Laptop className="w-4 h-4" />
+        ) : choice === "dark" ? (
+          <Moon className="w-4 h-4" />
+        ) : (
+          <Sun className="w-4 h-4" />
+        )}
+      </div>
       <span className="sr-only">Toggle theme</span>
     </button>
   );

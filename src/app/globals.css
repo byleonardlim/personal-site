@@ -3,20 +3,62 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #FAFAFA;
-  --foreground: #171717;
+  /* Tokyo Night Day (Light) */
+  --background: #e1e2e7;
+  --foreground: #343b58;
+  --primary: #3760bf; /* Tokyo Night Day Blue */
+  
+  /* Tokyo Night Palette for remapping */
+  --tokyo-50: #f2f3f5;
+  --tokyo-100: #e1e2e7;
+  --tokyo-200: #c4c8da;
+  --tokyo-300: #a9b1d6;
+  --tokyo-400: #9aa5ce;
+  --tokyo-500: #787c99;
+  --tokyo-600: #565f89;
+  --tokyo-700: #414868;
+  --tokyo-800: #24283b;
+  --tokyo-900: #1a1b26;
+  --tokyo-950: #16161e;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-oxygen-mono);
+  
+  /* Override Gray and Neutral to use Tokyo Night shades */
+  --color-gray-50: var(--tokyo-50);
+  --color-gray-100: var(--tokyo-100);
+  --color-gray-200: var(--tokyo-200);
+  --color-gray-300: var(--tokyo-300);
+  --color-gray-400: var(--tokyo-400);
+  --color-gray-500: var(--tokyo-500);
+  --color-gray-600: var(--tokyo-600);
+  --color-gray-700: var(--tokyo-700);
+  --color-gray-800: var(--tokyo-800);
+  --color-gray-900: var(--tokyo-900);
+  --color-gray-950: var(--tokyo-950);
+  
+  --color-neutral-50: var(--tokyo-50);
+  --color-neutral-100: var(--tokyo-100);
+  --color-neutral-200: var(--tokyo-200);
+  --color-neutral-300: var(--tokyo-300);
+  --color-neutral-400: var(--tokyo-400);
+  --color-neutral-500: var(--tokyo-500);
+  --color-neutral-600: var(--tokyo-600);
+  --color-neutral-700: var(--tokyo-700);
+  --color-neutral-800: var(--tokyo-800);
+  --color-neutral-900: var(--tokyo-900);
+  --color-neutral-950: var(--tokyo-950);
 }
 
 /* When .dark is present on <html>, swap variables for dark mode */
 html.dark {
-  --background: #111111;
-  --foreground: #EDEDED;
+  /* Tokyo Night (Dark) */
+  --background: #1a1b26;
+  --primary: #7aa2f7; /* Tokyo Night Blue */
+  --foreground: #c0caf5;
 }
 
 html, body {
@@ -33,6 +75,7 @@ html, body {
 /* Uppercase all headings globally */
 h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
+  color: var(--primary);
 }
 
 /* Smooth theme transitions when toggling (no effect on initial load) */

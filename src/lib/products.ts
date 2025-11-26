@@ -12,11 +12,11 @@ export const productsData: Product[] = [
   },
   {
     slug: 'automation-for-everyone',
-    title: 'Nomos - Automation for Everyone',
+    title: 'Nomologi - Automation that feels human. Power that feels simple.',
     year: '2026',
     category: 'Tool',
     status: 'Building',
-    url: 'https://nomos.ai',
-    description: 'Nomos, making everyday automation easy for everyone. Visually driven workflows for automating your daily tasks.'
+    url: 'https://nomologi.com',
+    description: 'Making everyday automation feel simple and human. Built for businesses who are tired of fighting their automation tools.'
   }
 ];

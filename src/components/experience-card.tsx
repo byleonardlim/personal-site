@@ -2,7 +2,6 @@
 
 import { Experience } from '@/types/experience';
 import { format } from 'date-fns';
-import { Tags } from './tag';
 
 interface ExperienceCardProps {
   experience: Experience;
@@ -15,29 +14,19 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
   };
 
   return (
-    <div className="overflow-hidden">
-      <div className="flex lg:flex-row flex-col justify-between items-start mb-1">
-        <div>
-          <h3 className="text-gray-900 dark:text-gray-100 font-medium mb-1">
-            {experience.title}
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400">
-            {experience.company}
-          </p>
-        </div>
-        <div className="py-1 lg:py-0 text-right">
-          <p className="text-gray-500 dark:text-gray-400">
-            {formatDate(experience.startDate)} - {experience.endDate === 'Present' ? 'Present' : formatDate(experience.endDate)}
-          </p>
-        </div>
+    <div className="group grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-8 items-baseline">
+      <div className="md:col-span-3 text-sm text-gray-400 dark:text-gray-500 font-mono tabular-nums">
+        {formatDate(experience.startDate)} — {experience.endDate === 'Present' ? 'Now' : formatDate(experience.endDate)}
       </div>
-
-      <p className="text-gray-600 dark:text-gray-400 mb-4">
-      </p>
-
-      {experience.tags.length > 0 && (
-        <Tags tags={experience.tags} />
-      )}
+      
+      <div className="md:col-span-9">
+        <h3 className="text-base font-medium text-gray-900 dark:text-gray-100 group-hover:underline decoration-gray-400 underline-offset-4 decoration-1 transition-all">
+          {experience.title}
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          {experience.company}
+        </p>
+      </div>
      </div>
   );
 }
