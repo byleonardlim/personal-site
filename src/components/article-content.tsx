@@ -9,7 +9,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeUnwrapImages from 'rehype-unwrap-images';
 import { defaultSchema } from 'hast-util-sanitize';
-import { Children, isValidElement, cloneElement } from 'react';
+import { Children, isValidElement } from 'react';
 import type { ReactNode, ReactElement } from 'react';
 import { Quote } from 'lucide-react';
 import Image from 'next/image';
@@ -328,7 +328,7 @@ const MarkdownComponents: Components = {
 
     // Check if the first child is a strong/bold tag (indicates a stat/metric)
     // ReactMarkdown might pass 'strong' as a React element type 'strong'
-    const isStat = isValidElement(first) && (first.type === 'strong' || first.type === 'b' || (first.type as any)?.name === 'strong');
+    const isStat = isValidElement(first) && (first.type === 'strong' || first.type === 'b' || (typeof first.type === 'function' && first.type.name === 'strong'));
 
     if (isStat) {
       const statContent = (first as ReactElement<{ children: ReactNode }>).props.children;
