@@ -82,7 +82,7 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
   };
 
   const buttonBase =
-    "inline-flex items-center gap-1 px-2 py-1 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:cursor-pointer transition-colors";
+    "inline-flex items-center gap-1 px-2 py-1 text-neutral-700 dark:text-neutral-200 hover:cursor-pointer transition-all hover:drop-shadow-[0_0_12px_rgba(0,0,0,0.7)] dark:hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)] active:drop-shadow-[0_0_12px_rgba(0,0,0,0.7)] dark:active:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]";
 
   return (
     <button
