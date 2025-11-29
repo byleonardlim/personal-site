@@ -11,7 +11,6 @@ import rehypeUnwrapImages from 'rehype-unwrap-images';
 import { defaultSchema } from 'hast-util-sanitize';
 import { Children, isValidElement } from 'react';
 import type { ReactNode, ReactElement } from 'react';
-import { Quote } from 'lucide-react';
 import Image from 'next/image';
 
 import { Tags } from './tag';
@@ -245,11 +244,11 @@ const ImgRenderer = ({ src, srcSet }: React.ImgHTMLAttributes<HTMLImageElement>)
     }
 
     return (
-      <figure className="relative w-full mb-8 -mx-2 lg:mx-0 lg:w-[calc(100%+16rem)] lg:-ml-16 p-2 lg:p-4 bg-gradient-to-t from-transparent to-neutral-100 dark:to-neutral-800 pointer-events-none">
+      <figure className="my-12">
         <Image
           src={normalizedSrc}
           alt="Article content"
-          className="w-full rounded-xs shadow-lg"
+          className="w-full rounded-lg shadow-lg"
           width={1200}
           height={630}
           sizes="(min-width: 1024px) 80vw, 100vw"
@@ -261,7 +260,7 @@ const AnchorRenderer = ({ href, children, ...props }: React.AnchorHTMLAttributes
   <a
     href={href}
     {...props}
-    className="text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300 underline decoration-gray-400 underline-offset-2 transition-colors"
+    className="text-gray-900 dark:text-gray-100 underline decoration-gray-300 dark:decoration-gray-700 underline-offset-4 hover:decoration-primary dark:hover:decoration-primary transition-colors decoration-2"
   >
     {children}
   </a>
@@ -294,37 +293,43 @@ const MarkdownComponents: Components = {
     }
 
     return (
-      <p {...props} className="prose-p text-pretty">
+      <p {...props} className="prose-p text-pretty mb-8 text-lg leading-8 text-gray-700 dark:text-gray-300">
         {children}
       </p>
     );
   },
   img: ImgRenderer,
   h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 {...props} className="text-sm mb-3 uppercase">{children}</h3>
+    <h3 {...props} className="text-xl font-medium mt-12 mb-6 text-gray-900 dark:text-gray-100">{children}</h3>
   ),
   h4: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h4 {...props} className="text-lg font-bold mb-2">{children}</h4>
+    <h4 {...props} className="text-lg font-medium mt-10 mb-4 text-gray-900 dark:text-gray-100">{children}</h4>
   ),
   h5: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h5 {...props} className="text-base mb-2">{children}</h5>
+    <h5 {...props} className="text-base font-medium mt-8 mb-3 text-gray-900 dark:text-gray-100">{children}</h5>
   ),
   h6: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h6 {...props} className="text-sm mb-2">{children}</h6>
+    <h6 {...props} className="text-sm font-medium mt-8 mb-3 text-gray-900 dark:text-gray-100">{children}</h6>
   ),
   ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul {...props} className="list-none mb-8">
+    <ul {...props} className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 mb-8">
       {children}
     </ul>
   ),
   ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol {...props} className="list-decimal pl-4 space-y-2 mb-8 marker:text-gray-400 dark:marker:text-gray-500 marker:font-medium">
+    <ol {...props} className="list-decimal pl-6 space-y-3 mb-8 marker:text-gray-400 dark:marker:text-gray-600">
       {children}
     </ol>
   ),
-  li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement>) => {
+  li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement> & { ordered?: boolean; node?: unknown; index?: number; checked?: boolean }) => {
     const kids = Children.toArray(children).filter(child => !isWhitespaceText(child));
     const first = kids[0];
+
+    // Extract known non-DOM props to prevent spreading them to the <li> element
+    // 'node' is the AST node passed by react-markdown
+    // 'ordered' is a boolean passed for list items
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { ordered, node: _node, index: _index, checked: _checked, ...liProps } = props;
 
     // Check if the first child is a strong/bold tag (indicates a stat/metric)
     // ReactMarkdown might pass 'strong' as a React element type 'strong'
@@ -334,13 +339,28 @@ const MarkdownComponents: Components = {
       const statContent = (first as ReactElement<{ children: ReactNode }>).props.children;
       const description = kids.slice(1);
       
+      if (ordered) {
+        return (
+          <li {...liProps} className="block p-6 mb-4 bg-gray-50 dark:bg-gray-900/30 rounded-lg border border-gray-200 dark:border-gray-800">
+            <div className="flex flex-col">
+              <span className="text-4xl lg:text-5xl font-bold text-primary dark:text-primary mb-2 block">
+                {statContent}
+              </span>
+              <div className="text-sm uppercase tracking-wider text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
+                {description}
+              </div>
+            </div>
+          </li>
+        );
+      }
+
       return (
-        <li {...props} className="block p-6 mb-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-800">
-          <div className="flex flex-col">
-            <span className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-2 block">
+        <li {...liProps} className="block p-6 bg-gray-50 dark:bg-gray-900/30 h-full">
+          <div className="flex flex-col h-full justify-between">
+            <span className="text-2xl lg:text-4xl font-bold text-primary dark:text-primary mb-2 block uppercase">
               {statContent}
             </span>
-            <div className="text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
+            <div className="text-sm capitalize tracking-wider text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
               {description}
             </div>
           </div>
@@ -348,10 +368,18 @@ const MarkdownComponents: Components = {
       );
     }
 
+    if (ordered) {
+      return (
+        <li {...liProps} className="text-gray-700 dark:text-gray-300 leading-8 pl-2">
+          {children}
+        </li>
+      );
+    }
+
     return (
-      <li {...props} className="group flex items-start mb-2">
-        <span className="mr-3 mt-2.5 w-1.5 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full shrink-0 group-hover:bg-gray-900 dark:group-hover:bg-gray-100 transition-colors" />
-        <div className="flex-1 leading-relaxed text-gray-700 dark:text-gray-300">{children}</div>
+      <li {...liProps} className="group flex items-start p-6 bg-gray-50 dark:bg-gray-900/30 h-full">
+        <span className="mr-4 mt-2.5 w-1.5 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full shrink-0 group-hover:bg-primary dark:group-hover:bg-primary transition-colors" />
+        <div className="flex-1 leading-8 text-gray-700 dark:text-gray-300">{children}</div>
       </li>
     );
   },
@@ -367,28 +395,29 @@ const MarkdownComponents: Components = {
     </em>
   ),
   blockquote: ({ children }) => (
-    <div className="relative my-12 p-8 bg-gray-50 dark:bg-gray-900/30 rounded-2xl border border-gray-100 dark:border-gray-800">
-      <Quote className="absolute -top-4 -left-2 w-8 h-8 text-gray-300 dark:text-gray-700 bg-white dark:bg-black rounded-full p-1" />
-      <blockquote className="relative italic text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-        {children}
-      </blockquote>
-    </div>
+    <blockquote className="pl-6 py-2 my-10 border-l-2 border-primary/50 italic text-xl text-gray-800 dark:text-gray-200 leading-relaxed">
+      {children}
+    </blockquote>
   ),
   code: ({ inline, className, children, ...props }: { inline?: boolean; className?: string } & React.HTMLAttributes<HTMLElement>) => {
     if (inline) {
       return (
-        <code className="bg-gray-100 dark:bg-gray-900 dark:text-gray-100 px-1.5 py-0.5 rounded font-mono text-[0.9em]">
+        <code className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-1.5 py-0.5 rounded font-mono text-sm">
           {children}
         </code>
       );
     }
-    // Let rehype-pretty-code handle block rendering; keep the default structure
     return (
       <code className={className} {...props}>
         {children}
       </code>
     );
   },
+  pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
+    <pre {...props} className="bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-6 overflow-x-auto mb-8 text-sm leading-relaxed">
+      {children}
+    </pre>
+  ),
 } as const;
 
 export function ArticleContent({ title, readingTime, tags, sections }: ArticleContentProps) {

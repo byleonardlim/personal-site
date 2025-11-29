@@ -7,8 +7,8 @@ interface TagProps {
 }
 
 export const Tag: FC<TagProps> = ({ tag }) => {
-  const baseClasses = 'px-2 py-1 text-xs';
-  const colorClasses = 'border border-gray-200 dark:border-gray-700 text-neutral-800 dark:text-neutral-300';
+  const baseClasses = 'px-2 py-1 text-xs rounded-md backdrop-blur-sm';
+  const colorClasses = 'border border-gray-200/70 dark:border-gray-700/70 bg-white/40 dark:bg-neutral-900/40 text-neutral-800 dark:text-neutral-300';
 
   return (
     <span className={`${baseClasses} ${colorClasses}`}>
