@@ -61,9 +61,6 @@ export default function ArticleCard({
 
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     isTouchDeviceRef.current = isTouch;
-    if (isTouch) {
-      setShowGyroToggle(true);
-    }
 
     if (isTouch) {
       let requiresPermission = false;
@@ -77,9 +74,14 @@ export default function ArticleCard({
       }
 
       if (requiresPermission) {
+        setShowGyroToggle(true);
         if (!gyroActive && !gyroToastDismissed) {
           setShowGyroToast(true);
         }
+      } else {
+        startGyro();
+        setShowGyroToggle(false);
+        setShowGyroToast(false);
       }
     }
 
