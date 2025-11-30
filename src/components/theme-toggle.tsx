@@ -46,6 +46,13 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
     const current = getCurrentChoice();
     setChoice(current);
     applyTheme(current, false);
+    if (iconRef.current) {
+      gsap.fromTo(
+        iconRef.current,
+        { rotation: 0 },
+        { rotation: 0, duration: 0.2, ease: "back.out(1.7)" }
+      );
+    }
   }, []);
 
   // Respond to system changes when in system mode

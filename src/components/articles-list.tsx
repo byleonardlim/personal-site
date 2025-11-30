@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { Article } from '@/types/articles';
 
@@ -9,15 +10,15 @@ interface ArticlesListProps {
 }
 
 export function ArticlesList({ articles, currentSlug }: ArticlesListProps) {
-  const handleClick = () => {
-    // Scroll the drawer panel to top when clicking an article
+  useEffect(() => {
+    // Scroll the drawer panel to top whenever the current article changes
     setTimeout(() => {
       const drawerPanel = document.querySelector('[role="dialog"] > div:last-child');
       if (drawerPanel) {
         drawerPanel.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }, 100);
-  };
+  }, [currentSlug]);
 
   return (
     <div className="mt-16 lg:mb-32 border-t border-neutral-200 dark:border-neutral-800 pt-16 w-full max-w-3xl mx-auto">
@@ -29,7 +30,6 @@ export function ArticlesList({ articles, currentSlug }: ArticlesListProps) {
               <Link
                 href={`/?a=${study.slug}`}
                 scroll={false}
-                onClick={handleClick}
                 className={`block text-sm font-medium transition-colors duration-200 ${
                   study.slug === currentSlug
                     ? 'text-black dark:text-white font-bold'

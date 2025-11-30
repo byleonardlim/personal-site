@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -25,6 +25,10 @@ export default function ArticleCard({
 }: ArticleCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const gradientRef = useRef<HTMLDivElement>(null);
+  const isTouchDeviceRef = useRef(false);
+  const orientationHandlerRef = useRef<((event: DeviceOrientationEvent) => void) | null>(null);
+  const [gyroActive, setGyroActive] = useState(false);
+  const [showGyroToggle, setShowGyroToggle] = useState(false);
 
   useEffect(() => {
     if (!featured || !cardRef.current || !gradientRef.current) return;
@@ -48,12 +52,28 @@ export default function ArticleCard({
     return () => ctx.revert();
   }, [featured]);
 
-  const handlePointerMove = (event: React.PointerEvent<HTMLAnchorElement>) => {
-    if (!featured || !cardRef.current || !gradientRef.current) return;
+  useEffect(() => {
+    if (!featured) return;
 
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
-    const y = (event.clientY - rect.top) / rect.height - 0.5; // -0.5 to 0.5
+    if (typeof window === 'undefined') return;
+
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    isTouchDeviceRef.current = isTouch;
+    if (isTouch) {
+      setShowGyroToggle(true);
+    }
+
+    return () => {
+      if (orientationHandlerRef.current) {
+        window.removeEventListener('deviceorientation', orientationHandlerRef.current);
+        orientationHandlerRef.current = null;
+      }
+      setGyroActive(false);
+    };
+  }, [featured]);
+
+  const applyTilt = (x: number, y: number) => {
+    if (!featured || !cardRef.current || !gradientRef.current) return;
 
     const rotateX = -y * 8;
     const rotateY = x * 8;
@@ -74,6 +94,18 @@ export default function ArticleCard({
     });
   };
 
+  const handlePointerMove = (event: React.PointerEvent<HTMLAnchorElement>) => {
+    if (!featured || !cardRef.current || !gradientRef.current) return;
+
+    if (isTouchDeviceRef.current && gyroActive) return;
+
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+    applyTilt(x, y);
+  };
+
   const handlePointerLeave = () => {
     if (!featured || !cardRef.current || !gradientRef.current) return;
 
@@ -89,6 +121,49 @@ export default function ArticleCard({
       duration: 0.35,
       ease: 'power3.out',
     });
+  };
+
+  const handleEnableGyro = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!featured || typeof window === 'undefined') return;
+
+    if (orientationHandlerRef.current) {
+      window.removeEventListener('deviceorientation', orientationHandlerRef.current);
+      orientationHandlerRef.current = null;
+    }
+
+    if (typeof DeviceOrientationEvent !== 'undefined') {
+      const anyDeviceOrientationEvent = DeviceOrientationEvent as any;
+      if (typeof anyDeviceOrientationEvent.requestPermission === 'function') {
+        try {
+          const permission = await anyDeviceOrientationEvent.requestPermission();
+          if (permission !== 'granted') {
+            return;
+          }
+        } catch {
+          return;
+        }
+      }
+    }
+
+    const handleOrientation = (orientationEvent: DeviceOrientationEvent) => {
+      const { beta, gamma } = orientationEvent;
+      if (beta == null || gamma == null) return;
+
+      const rawX = gamma / 45;
+      const rawY = (beta - 45) / 45;
+
+      const clampedX = Math.max(-0.5, Math.min(0.5, rawX));
+      const clampedY = Math.max(-0.5, Math.min(0.5, rawY));
+
+      applyTilt(clampedX, clampedY);
+    };
+
+    window.addEventListener('deviceorientation', handleOrientation);
+    orientationHandlerRef.current = handleOrientation;
+    setGyroActive(true);
   };
 
   const metaItems = [
@@ -134,8 +209,19 @@ export default function ArticleCard({
       )}
       <div className="relative z-10">
         {featured && (
-          <div className="mb-3 inline-flex text-[10px] tracking-[0.18em] uppercase text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 px-2 py-0.5 rounded-sm font-medium bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm">
-            Featured
+          <div className="mb-3 flex items-center gap-2">
+            <div className="inline-flex text-[10px] tracking-[0.18em] uppercase text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 px-2 py-0.5 rounded-sm font-medium bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm">
+              Featured
+            </div>
+            {showGyroToggle && (
+              <button
+                type="button"
+                onClick={handleEnableGyro}
+                className="ml-1 inline-flex items-center rounded-sm border border-gray-200 dark:border-gray-700 px-2 py-0.5 text-[10px] uppercase tracking-[0.16em] text-gray-700 dark:text-gray-200 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm hover:bg-gray-100 dark:hover:bg-gray-800/80 transition-colors"
+              >
+                {gyroActive ? 'Tilt on' : 'Enable tilt'}
+              </button>
+            )}
           </div>
         )}
         <h3 className={titleClasses}>

@@ -27,6 +27,8 @@ export default function DrawerShell({
 
   // Touch swipe-to-close state
   const startXRef = useRef<number | null>(null);
+  const startYRef = useRef<number | null>(null);
+  const isSwipingRef = useRef<boolean>(false);
   const [dragX, setDragX] = useState(0);
   const [dragging, setDragging] = useState(false);
 
@@ -177,16 +179,47 @@ export default function DrawerShell({
   // Touch handlers for swipe-to-close
   const onTouchStart = (e: React.TouchEvent) => {
     if (closingRef.current) return;
-    startXRef.current = e.touches[0].clientX;
-    setDragging(true);
-    if (tlRef.current && !reducedMotionRef.current) {
-      tlRef.current.pause();
-    }
+    const touch = e.touches[0];
+    startXRef.current = touch.clientX;
+    startYRef.current = touch.clientY;
+    isSwipingRef.current = false;
   };
   const onTouchMove = (e: React.TouchEvent) => {
-    if (closingRef.current || startXRef.current == null) return;
-    const dx = e.touches[0].clientX - startXRef.current;
-    if (dx > 0) setDragX(dx > 480 ? 480 : dx);
+    if (closingRef.current || startXRef.current == null || startYRef.current == null) return;
+    const touch = e.touches[0];
+    const dx = touch.clientX - startXRef.current;
+    const dy = touch.clientY - startYRef.current;
+
+    // If we haven't decided the gesture yet, determine if it's a horizontal swipe or vertical scroll
+    if (!isSwipingRef.current) {
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
+
+      // Small movements: don't decide yet
+      if (absDx < 10 && absDy < 10) return;
+
+      // If the gesture is more vertical than horizontal, let the browser handle scrolling
+      if (absDy > absDx) {
+        startXRef.current = null;
+        startYRef.current = null;
+        setDragging(false);
+        return;
+      }
+
+      // Horizontal swipe: begin drag interaction
+      isSwipingRef.current = true;
+      setDragging(true);
+      if (tlRef.current && !reducedMotionRef.current) {
+        tlRef.current.pause();
+      }
+    }
+
+    if (!isSwipingRef.current) return;
+
+    if (dx > 0) {
+      const clamped = dx > 480 ? 480 : dx;
+      setDragX(clamped);
+    }
   };
   const onTouchEnd = () => {
     const threshold = 80;
