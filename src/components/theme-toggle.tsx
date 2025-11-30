@@ -84,6 +84,15 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
   const buttonBase =
     "inline-flex items-center gap-1 px-2 py-1 text-neutral-700 dark:text-neutral-200 hover:cursor-pointer transition-all hover:drop-shadow-[0_0_12px_rgba(0,0,0,0.7)] dark:hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)] active:drop-shadow-[0_0_12px_rgba(0,0,0,0.7)] dark:active:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]";
 
+  const iconBase =
+    "w-4 h-4 transition-[filter,transform] duration-300";
+  const iconForChoice =
+    choice === "dark"
+      ? `${iconBase} text-[#c8d3ff] drop-shadow-[0_0_18px_rgba(200,211,255,0.95)]`
+      : choice === "light"
+      ? `${iconBase} text-[#e0af68] drop-shadow-[0_0_20px_rgba(255,223,155,0.95)]`
+      : `${iconBase} text-neutral-600 dark:text-neutral-300`;
+
   return (
     <button
       type="button"
@@ -94,11 +103,11 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
     >
       <div ref={iconRef} className="flex items-center justify-center origin-center">
         {choice === "system" ? (
-          <Laptop className="w-4 h-4" />
+          <Laptop className={iconForChoice} />
         ) : choice === "dark" ? (
-          <Moon className="w-4 h-4" />
+          <Moon className={iconForChoice} />
         ) : (
-          <Sun className="w-4 h-4" />
+          <Sun className={iconForChoice} />
         )}
       </div>
       <span className="sr-only">Toggle theme</span>

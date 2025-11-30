@@ -14,7 +14,7 @@ export const productsData: Product[] = [
     slug: 'automation-for-everyone',
     title: 'Nomologi - Automation that feels human. Power that feels simple.',
     year: '2026',
-    category: 'Tool',
+    category: 'Platform',
     status: 'Building',
     url: 'https://nomologi.com',
     description: 'Making everyday automation feel simple and human. Built for businesses who are tired of fighting their automation tools.'
