@@ -135,10 +135,12 @@ export default function ArticleCard({
     }
 
     if (typeof DeviceOrientationEvent !== 'undefined') {
-      const anyDeviceOrientationEvent = DeviceOrientationEvent as any;
-      if (typeof anyDeviceOrientationEvent.requestPermission === 'function') {
+      const DeviceOrientationEventWithPermission = DeviceOrientationEvent as typeof DeviceOrientationEvent & {
+        requestPermission?: () => Promise<PermissionState>;
+      };
+      if (typeof DeviceOrientationEventWithPermission.requestPermission === 'function') {
         try {
-          const permission = await anyDeviceOrientationEvent.requestPermission();
+          const permission = await DeviceOrientationEventWithPermission.requestPermission();
           if (permission !== 'granted') {
             return;
           }
