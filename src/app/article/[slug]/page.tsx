@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
-import { getArticleContent } from '@/lib/articles';
+import { getArticleBySlug, getArticleList } from '@/lib/articles';
 import { ArticleContent } from '@/components/article-content';
 import { ArticlesList } from '@/components/articles-list';
 import { parseMarkdownSections } from '@/lib/markdown';
 
 export async function generateStaticParams() {
-  const articles = await getArticleContent();
+  const articles = await getArticleList();
   return articles.map(article => ({
     slug: article.slug as string,
   }));
@@ -13,7 +13,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const articles = await getArticleContent();
+  const articles = await getArticleList();
   const article = articles.find(article => article.slug === slug);
   if (!article) return {};
 
@@ -41,14 +41,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const articles = await getArticleContent();
-  const article = articles.find(article => article.slug === slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     notFound();
   }
 
   const sections = parseMarkdownSections(article.content);
+  const articleList = await getArticleList();
 
   return (
     <div className="w-screen min-h-screen px-2">    
@@ -59,7 +59,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         sections={sections}
       />
       <ArticlesList
-        articles={articles}
+        articles={articleList}
         currentSlug={slug}
       />
     </div>

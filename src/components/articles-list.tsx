@@ -2,10 +2,10 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { Article } from '@/types/articles';
+import { ArticleMeta } from '@/types/articles';
 
 interface ArticlesListProps {
-  articles: Article[];
+  articles: ArticleMeta[];
   currentSlug: string;
 }
 

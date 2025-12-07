@@ -1,6 +1,5 @@
-export interface Article {
+export interface ArticleMeta {
   slug: string;
-  content: string;
   readingTime: string;
   title: string;
   year: string;
@@ -10,4 +9,8 @@ export interface Article {
   description?: string;
   date?: string;
   coverImage?: string;
+}
+
+export interface Article extends ArticleMeta {
+  content: string;
 }

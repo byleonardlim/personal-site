@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Mail, MapPin, ExternalLink } from 'lucide-react';
-import { getArticleContent } from '@/lib/articles';
+import { getArticleList } from '@/lib/articles';
 import ArticleCard from '@/components/article-card';
-import type { Article } from '@/types/articles';
+import type { ArticleMeta } from '@/types/articles';
 import { experienceData } from '@/lib/experience';
 import { ExperienceCard } from '@/components/experience-card';
 import Section from '@/components/section';
@@ -14,7 +14,7 @@ import ProductCard from '@/components/product-card';
 export async function generateMetadata({ searchParams }: { searchParams: Promise<{ a?: string }> }): Promise<Metadata> {
   const { a } = await searchParams;
   if (!a) return {};
-  const articles: Article[] = await getArticleContent();
+  const articles: ArticleMeta[] = await getArticleList();
   const article = articles.find(x => x.slug === a);
   if (!article) return {};
   const url = `https://byleonardlim.com/article/${article.slug}`;
@@ -25,7 +25,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
 }
 
 export default async function Home() {
-  const articles: Article[] = await getArticleContent();
+  const articles: ArticleMeta[] = await getArticleList();
   // Sort articles with featured ones first
   articles.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
@@ -63,7 +63,7 @@ export default async function Home() {
         <div className="lg:col-span-7">
           <Section title="Selected Works" subtitle="Articles">
             <div className="space-y-8">
-              {articles.map((study: Article) => (
+              {articles.map((study: ArticleMeta) => (
                 <ArticleCard
                   key={study.slug}
                   {...study}

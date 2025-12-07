@@ -1,4 +1,4 @@
-import { getArticleContent } from '@/lib/articles';
+import { getArticleBySlug, getArticleList } from '@/lib/articles';
 import { parseMarkdownSections } from '@/lib/markdown';
 import { ArticleContent } from '@/components/article-content';
 import { ArticlesList } from '@/components/articles-list';
@@ -8,11 +8,11 @@ export default async function DrawerSlot({ searchParams }: { searchParams: Promi
   const { a } = await searchParams;
   if (!a) return null;
 
-  const articles = await getArticleContent();
-  const article = articles.find(x => x.slug === a);
+  const article = await getArticleBySlug(a);
   if (!article) return null;
 
   const sections = parseMarkdownSections(article.content);
+  const articles = await getArticleList();
 
   return (
     <DrawerShell titleId="drawer-title" titleText="Article" closeHref="/">
