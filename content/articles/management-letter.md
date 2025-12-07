@@ -2,7 +2,7 @@
 title: "Vibe Coding the Audit: From Grunt Work to MVP in Days"
 year: "2025"
 tags: ["AI/ML", "GenAI", "Product Design", "UX"]
-featured: true
+featured: false
 ---
 
 ## Overview
