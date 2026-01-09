@@ -25,6 +25,13 @@ export default function DrawerShell({
   const closingRef = useRef<boolean>(false);
   const widthRef = useRef<number>(0);
 
+  const killTimeline = useCallback(() => {
+    if (tlRef.current) {
+      tlRef.current.kill();
+      tlRef.current = null;
+    }
+  }, []);
+
   // Touch swipe-to-close state
   const startXRef = useRef<number | null>(null);
   const startYRef = useRef<number | null>(null);
@@ -43,10 +50,7 @@ export default function DrawerShell({
       navigateHome();
       return;
     }
-    if (tlRef.current) {
-      tlRef.current.kill();
-      tlRef.current = null;
-    }
+    killTimeline();
     if (backdropRef.current) (backdropRef.current as HTMLElement).style.pointerEvents = 'none';
     if (panelRef.current) (panelRef.current as HTMLElement).style.pointerEvents = 'none';
     // Do not clear inline transform abruptly; GSAP will read current value and tween from it
@@ -57,6 +61,7 @@ export default function DrawerShell({
       closingRef.current = false;
       navigateHome();
     });
+    tlRef.current = tl;
   }, [navigateHome]);
 
   useEffect(() => {
@@ -167,10 +172,7 @@ export default function DrawerShell({
     tl.to(panelEl, { x: 0 }, 0);
     tlRef.current = tl;
     return () => {
-      if (tlRef.current) {
-        tlRef.current.kill();
-        tlRef.current = null;
-      }
+      killTimeline();
       panelEl.style.willChange = '';
       backdropEl.style.willChange = '';
     };
@@ -232,10 +234,7 @@ export default function DrawerShell({
       }
       if (closingRef.current) return;
       closingRef.current = true;
-      if (tlRef.current) {
-        tlRef.current.kill();
-        tlRef.current = null;
-      }
+      killTimeline();
       if (backdropRef.current) (backdropRef.current as HTMLElement).style.pointerEvents = 'none';
       if (panelRef.current) (panelRef.current as HTMLElement).style.pointerEvents = 'none';
       const currentDragX = dragX;
@@ -251,6 +250,7 @@ export default function DrawerShell({
         closingRef.current = false;
         navigateHome();
       });
+      tlRef.current = tl;
     } else {
       (async () => {
         if (reducedMotionRef.current) {

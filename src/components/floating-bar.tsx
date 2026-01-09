@@ -17,6 +17,7 @@ export default function FloatingBar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const barRef = useRef<HTMLDivElement | null>(null);
+  const widthTweenRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -44,6 +45,11 @@ export default function FloatingBar() {
     const el = barRef.current;
     if (!el) return;
 
+    if (widthTweenRef.current) {
+      widthTweenRef.current.kill();
+      widthTweenRef.current = null;
+    }
+
     const mq = window.matchMedia("(min-width: 1024px)");
     if (!mq.matches) {
       // On mobile, keep full-width and skip animation
@@ -51,23 +57,50 @@ export default function FloatingBar() {
       return;
     }
 
-    gsap.to(el, {
+    widthTweenRef.current = gsap.to(el, {
       duration: 0.25,
       maxWidth: drawerOpen ? "80vw" : "100vw",
       ease: "power2.out",
     });
+
+    return () => {
+      if (widthTweenRef.current) {
+        widthTweenRef.current.kill();
+        widthTweenRef.current = null;
+      }
+    };
   }, [drawerOpen, mounted]);
 
   // Detect if the drawer is mounted by checking for the dialog element
   useEffect(() => {
-    const detect = () => {
+    let rafId: number | null = null;
+    let lastOpen: boolean | null = null;
+
+    const detectNow = () => {
+      rafId = null;
       const dlg = document.querySelector('[role="dialog"][aria-labelledby="drawer-title"]');
-      setDrawerOpen(Boolean(dlg));
+      const open = Boolean(dlg);
+      if (lastOpen !== open) {
+        lastOpen = open;
+        setDrawerOpen(open);
+      }
     };
-    detect();
-    const mo = new MutationObserver(detect);
-    mo.observe(document.body, { childList: true, subtree: true });
-    return () => mo.disconnect();
+
+    const scheduleDetect = () => {
+      if (rafId != null) return;
+      rafId = window.requestAnimationFrame(detectNow);
+    };
+
+    scheduleDetect();
+    const mo = new MutationObserver(scheduleDetect);
+    // DrawerShell mounts directly under document.body (portal-like), so subtree is unnecessary.
+    mo.observe(document.body, { childList: true });
+    return () => {
+      mo.disconnect();
+      if (rafId != null) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
   }, [pathname]);
 
   const closeDrawer = () => {
