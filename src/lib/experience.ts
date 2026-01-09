@@ -6,7 +6,7 @@ export const experienceData: Experience[] = [
     company: 'GIC - Contracted by Astek',
     location: 'Singapore',
     startDate: '2025-07',
-    endDate: 'Present',
+    endDate: '2025-12',
     tags: ['UX', 'Rapid Prototyping', 'Design Management', 'GenAI', 'AI/ML', 'Design Process']
   },{
     title: 'UX Lead - AI Experience Design',
