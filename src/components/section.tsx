@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 interface SectionProps {
-  title: string;
+  title: ReactNode;
   subtitle?: ReactNode;
   children: ReactNode;
   className?: string;
@@ -29,9 +29,9 @@ export default function Section({
 
       {/* Desktop Left Handle */}
       <div className={`hidden lg:flex flex-col justify-between py-4 pr-8 border-r border-gray-200 dark:border-gray-800 select-none ${sidebarClassName}`}>
-        <span className="[writing-mode:vertical-rl] rotate-180 text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 whitespace-nowrap">
+        <div className="[writing-mode:vertical-rl] rotate-180 text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 whitespace-nowrap">
           {title}
-        </span>
+        </div>
         {subtitle && (
            <div className="[writing-mode:vertical-rl] rotate-180 flex gap-6 text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-gray-500 whitespace-nowrap">
              {subtitle}

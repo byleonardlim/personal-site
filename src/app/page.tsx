@@ -35,25 +35,24 @@ export default async function Home() {
     <div className="max-w-screen-xl mx-auto px-6 lg:px-12 text-base selection:bg-gray-200 dark:selection:bg-gray-800 pb-32">
       {/* About Section */}
       <Section
-        title="Leonard Lim"
-        subtitle={
+        title={
           <>
-            <span>Fractional Product Design</span>
-            <span className="block lg:inline mt-1 lg:mt-0">{aboutContent.location}</span>
+            <span className="block lg:inline mb-1">Byleonardlim,</span>
+            <span className="block lg:inline mt-0">{aboutContent.location}</span>
           </>
         }
-        className="min-h-[80vh] mt-[2rem] lg:mt-0"
+        className="min-h-[50vh] mt-[2rem] lg:mt-0"
         contentClassName="justify-center lg:pl-16 max-w-4xl"
       >
         <h1 className="text-3xl lg:text-5xl font-medium leading-tight text-gray-900 dark:text-gray-100 mb-8">
-          Disrupting the user experience domain with clarity and intent.
+          Designer that works with code.
         </h1>
-        <div className="max-w-2xl text-lg lg:text-xl text-gray-600 dark:text-gray-400 leading-relaxed space-y-6">
+        <div className="max-w-2xl text-lg lg:text-base text-gray-600 dark:text-gray-400 leading-relaxed space-y-6">
           <p>
-            I work with early-stage companies and lean organizations to shape how people experience and building their products. Through fractional design leadership, I help teams find focus, align around users, and design with purpose.
+            Vibe check with users. Prototype with code. Build with AI.
           </p>
           <p>
-            By staying ahead of the market with artificial intelligence, I guide quiet shifts that create lasting impact, turning complex systems into experiences that simply work.
+            I'm Leonard, pixel pusher yesterday, today a builder. Designing system first, user foremost solutions for public and private sectors.
           </p>
         </div>
       </Section>
@@ -61,7 +60,7 @@ export default async function Home() {
       <div className="w-full lg:grid lg:grid-cols-12 lg:gap-16">
         {/* Articles Section */}
         <div className="lg:col-span-7">
-          <Section title="Selected Works" subtitle="Articles">
+          <Section title="Articles">
             <div className="space-y-8">
               {articles.map((study: ArticleMeta) => (
                 <ArticleCard
@@ -75,7 +74,7 @@ export default async function Home() {
 
         {/* Products Section */}
         <div className="lg:col-span-5">
-          <Section title="Products" subtitle="Building">
+          <Section title="Products">
             <div className="space-y-8">
               {productsData.map((product) => (
                 <ProductCard key={product.slug} {...product} />
@@ -86,7 +85,7 @@ export default async function Home() {
       </div>
 
       {/* Experience Section */}
-      <Section title="Experience" subtitle="Career">
+      <Section title="Experience">
         <div className="max-w-3xl space-y-8">
           {experienceData
             .sort((a, b) => {
@@ -113,7 +112,7 @@ export default async function Home() {
       </Section>
 
       {/* Connect Section */}
-      <Section title="Connect" subtitle="Socials">
+      <Section title="Connect">
         <div className="space-y-3 text-gray-600 dark:text-gray-300">
           <div className="flex items-center">
             <Mail className="w-4 h-4 mr-3 opacity-70" />
